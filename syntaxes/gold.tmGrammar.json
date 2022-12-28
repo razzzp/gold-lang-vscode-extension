@@ -1,14 +1,13 @@
 {
   "scopeName": "source.gold",
-  "patterns": [{ "include": "#" }],
+  "patterns": [{ "include": "#comments" }],
   "repository": {
     "comments": {
       "begin": ";",
       "end": "[\n\r]",
       "name": "comment.line",
       "patterns": "[\\w\\W]*"
-    },
-
+    }
   },
   "fileTypes": [
     "gold",
