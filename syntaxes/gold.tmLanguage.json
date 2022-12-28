@@ -7,9 +7,9 @@
 		{ "include": "#comments"},
 		{ "include": "#constant-boolean"},
 		{ "include": "#constant-nil"},
+		{ "include": "#constant-character"},
 		{ "include": "#constant-integer"},
 		{ "include": "#constant-decimal"},
-		{ "include": "#constant-character"},
 		{ "include": "#class"}
 	],
 	"repository": {
@@ -45,11 +45,11 @@
 		},
 		"constant-integer":{
 			"name": "constant.numeric.integer",
-			"match": "\\b[^#]\\d+\\b"
+			"match": "\\b\\d+\\b"
 		},
 		"constant-decimal":{
 			"name": "constant.numeric.decimal",
-			"match": "\\b[^#]\\d+(\\.\\d*)?\\b"
+			"match": "\\b\\d+(\\.\\d*)?\\b"
 		},
 		"constant-character":{
 			"name": "constant.character",
@@ -59,7 +59,7 @@
 			"comment": "Labels class name and inherited class name",
 			"match": "^class\\s+([\\w]+)\\s+(?:\\(([\\w]+)\\))?",
 			"captures": {
-				"1": { "name": "entity.name.class" },
+				"1": { "name": "entity.name.type.class" },
 				"2": { "name": "entity.other.inherited-class"}
 			}
 		}
