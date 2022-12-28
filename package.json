@@ -1,0 +1,25 @@
+{
+  "name": "gold-lang",
+  "displayName": "Gold Lang",
+  "description": "VSCode extension for Gold (eWAM)",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.54.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "gold",
+      "aliases": ["Gold", "gold"],
+      "extensions": [".gold",".god"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "gold",
+      "scopeName": "source.gold",
+      "path": "./syntaxes/gold.tmLanguage.json"
+    }]
+  }
+}
