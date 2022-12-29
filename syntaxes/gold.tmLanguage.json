@@ -2,14 +2,13 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Gold",
 	"patterns": [
-		{ "include": "#class-declaration"},
 		{ "include": "#comments"},
-		{ "include": "#function-declaration"},
+		{ "include": "#declaration"},
 		{ "include": "#keyword"},
+		{ "include": "#storage"},
 		{ "include": "#constant"}
 	],
-	"repository": {
-		
+	"repository": {		
 		"comments": {
 			"name": "comment.line",
 			"begin": ";",
@@ -20,41 +19,78 @@
 		"declaration": {
 			"patterns": [
 				{"include": "#class-declaration"},
-				{"include": "#function-declaration"}
+				{"include": "#function-declaration"},
+				{"include": "#procedure-declaration"}
 			]
 		},
 		"class-declaration":{
 			"name": "meta.class",
 			"comment": "Labels class name and inherited class name, end impossible to match so will go to end of file",
-			"begin": "(class)(?:\\s+([\\w]+))(?:\\s+\\(([\\w]+)\\))?",
-			"begincaptures": {
+			"match": "\\b(class)(?:\\s+(\\w*))(?:\\s+\\(([\\w]+)\\))?",
+			"captures": {
 				"1": { "name": "storage.type.class"},
-				"2": { "name": "entity.name.type.class"},
+				"2": { "patterns": [{"include": "#class-name"}]},
 				"3": { "name": "entity.other.inherited-class"}
-			},
-			"patterns": [
-				{ "include": "#comments"},
-				{ "include": "#function-declaration"},
-				{ "include": "#keyword"},
-				{ "include": "#constant"}
-			],
-			"end": "(?=e)b"
+			}
 		},
 		"function-declaration":{
 			"name": "meta.function",
-			"comment": "",
-			"begin": "(function)\\s+([\\w]+)(?:\\s*(\\(.*\\)))?\\s+(return)\\s+[\\w]+(?:\\s+([\\w]+))?(?:\\s+([\\w]+))?",
-			"beginCaptures": {
+			"patterns": [
+				{"include": "#function-declaration-start"},
+				{"include": "#function-declaration-end"}
+			]
+		},
+		"function-declaration-start":{
+			"name": "meta.function.start",
+			"comment": "Function header",
+			"match": "\\b(function)\\s+(\\w+)(?:\\s*(\\([^)]*\\)?))?(?:\\s*(return)(?:\\s+([\\w]+))?)?(?:\\s+([\\w]+))?(?:\\s+([\\w]+))?",
+			"captures": {
 				"1": { "name": "storage.type.function" },
-				"2": { "name": "entity.name.function"},
+				"2": { "patterns": [{"include": "#function-name"}]},
 				"3": { "patterns": [
 					{"include": "#parameters"}
 				]},
-				"4": { "name": "keyword.control.flow"}
-			},
-			"end": "(endFunc)",
-			"endCaptures": {
-				"1": { "name": "storage.type.function" }
+				"4": { "name": "keyword.control.flow"},
+				"5": { "name": "meta.function.return-type"},
+				"6": { "patterns": [{"include": "#storage-modifier"}]},
+				"7": { "patterns": [{"include": "#storage-modifier-method"}]}
+			}
+		},
+		"function-declaration-end": {
+			"name": "meta.function.end",
+			"comment": "",
+			"match": "\\b(endFunc)\\b",
+			"captures": {
+				"1": { "name": "storage.type.function"}
+			}
+		},
+		"procedure-declaration":{
+			"name": "meta.procedure",
+			"patterns": [
+				{"include": "#procedure-declaration-start"},
+				{"include": "#procedure-declaration-end"}
+			]
+		},
+		"procedure-declaration-start":{
+			"name": "meta.procedure.start",
+			"comment": "procedure header",
+			"match": "\\b(procedure)\\s+(\\w+)(?:\\s*(\\([^)]*\\)?))?(?:\\s*([\\w]+))?(?:\\s+([\\w]+))?",
+			"captures": {
+				"1": { "name": "storage.type.procedure" },
+				"2": { "patterns": [{"include": "#procedure-name"}]},
+				"3": { "patterns": [
+					{"include": "#parameters"}
+				]},
+				"4": { "name": "storage.modifier"},
+				"5": { "name": "storage.modifier"}
+			}
+		},
+		"procedure-declaration-end": {
+			"name": "meta.procedure.end",
+			"comment": "",
+			"match": "\\b(endProc)\\b",
+			"captures": {
+				"1": { "name": "storage.type.procedure"}
 			}
 		},
 		"parameters" : {
@@ -62,19 +98,98 @@
 		},
 
 
+		"class-name": {
+			"name": "entity.name.class",
+			"match": "\\b[A-Za-z_]\\w*\\b"
+		},
+		"function-name": {
+			"name": "entity.name.function",
+			"match": "\\b[A-Za-z_]\\w*\\b"
+		},
+		"procedure-name": {
+			"name": "entity.name.function.procedure",
+			"match": "\\b[A-Za-z_]\\w*\\b"
+		},
+
+
+		"storage": {
+			"patterns": [
+				{ "include": "#storage-class"},
+				{ "include": "#storage-function"},
+				{ "include": "#storage-procedure"}
+			]
+		},
+		"storage-class": {
+			"name": "storage.type",
+			"match": "\\bclass\\b"
+		},
+		"storage-function": {
+			"name": "storage.type",
+			"match": "\\bfunction\\b"
+		},
+		"storage-procedure": {
+			"name": "storage.type",
+			"match": "\\bprocedure\\b"
+		},
+		"storage-modifier": {
+			"name": "storage.modifier",
+			"match": "\\b(protected|private)\\b",
+			"patterns": [
+				{"include": "#storage-modifier-method"},
+				{"include": "#storage-modifier-variable-parameters"}
+			]
+		},
+		"storage-modifier-method": {
+			"name": "storage.modifier.method",
+			"match": "\\b(override|final)\\b"
+		},
+		"storage-modifier-variable-parameters": {
+			"name": "storage.modifier.variable",
+			"match": "\\b(const|inout|var)\\b"
+		},
+
 		"keyword": {
 			"patterns": [
-				{ "include": "#keyword-storage-type"},
 				{ "include": "#keyword-control"}
 			]
 		},
-		"keyword-storage-type": {
-			"name": "storage.type",
-			"match": "\\bclass\\b|\\bfunction\\b|\\bprocedure\\b"
-		},
 		"keyword-control": {
-			"name": "keyword.control",
-			"match": "\\b(if|while|for|return)\\b"
+			"patterns": [
+				{ "include": "#keyword-control-conditional-start"},
+				{ "include": "#keyword-control-conditional-intermediate"},
+				{ "include": "#keyword-control-conditional-end"},
+				{ "include": "#keyword-control-loop-start"},
+				{ "include": "#keyword-control-loop-end"},
+				{ "include": "#keyword-control-trycatch"}
+			]
+		},
+		"keyword-control-conditional-start": {
+			"name": "keyword.control.conditional",
+			"match": "\\b(if|switch|when)\\b"
+		},
+		"keyword-control-conditional-intermediate": {
+			"name": "keyword.control.conditional",
+			"match": "\\b(elseif|else)\\b"
+		},
+		"keyword-control-conditional-end": {
+			"name": "keyword.control.conditional",
+			"match": "\\b(endIf|endSwitch|endWhen)\\b"
+		},
+		"keyword-control-loop-start": {
+			"name": "keyword.control.loop",
+			"match": "\\b(while|for|forEach|loop|repeat)\\b"
+		},
+		"keyword-control-end": {
+			"name": "keyword.control.loop",
+			"match": "\\b(endWhile|endFor|endLoop|until)\\b"
+		},
+		"keyword-control-trycatch": {
+			"name": "keyword.control.trycatch",
+			"match": "\\b(try|catch|finally|endTry)\\b"
+		},
+		"keyword-control-flow": {
+			"name": "keyword.control.flow",
+			"match": "\\b(return|exit|break|continue)\\b"
 		},
 
 
@@ -85,7 +200,8 @@
 				{"include": "#constant-integer"},
 				{"include": "#constant-decimal"},
 				{"include": "#constant-character"},
-				{"include": "#constant-string"}
+				{"include": "#constant-string-single"},
+				{"include": "#constant-string-double"}
 			]
 		},
 		"constant-boolean":{
@@ -108,7 +224,7 @@
 			"name": "constant.character",
 			"match": "#\\d{1,3}\\b"
 		},
-		"constant-string": {
+		"constant-string-single": {
 			"name": "string.quoted.single.gold",
 			"begin": "'",
 			"end": "'",
@@ -118,6 +234,11 @@
 					"match": "''"
 				}
 			]
+		},
+		"constant-string-double": {
+			"name": "string.quoted.single.gold",
+			"begin": "\"",
+			"end": "\""
 		}
 	},
 	"scopeName": "source.gold"
