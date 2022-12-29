@@ -2,38 +2,91 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Gold",
 	"patterns": [
-		{ "include": "#keywords"},
-		{ "include": "#strings" },
+		{ "include": "#class-declaration"},
 		{ "include": "#comments"},
-		{ "include": "#constant-boolean"},
-		{ "include": "#constant-nil"},
-		{ "include": "#constant-character"},
-		{ "include": "#constant-integer"},
-		{ "include": "#constant-decimal"},
-		{ "include": "#class"}
+		{ "include": "#function-declaration"},
+		{ "include": "#keyword"},
+		{ "include": "#constant"}
 	],
 	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.gold",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
-		},
-		"strings": {
-			"name": "string.quoted.single.gold",
-			"begin": "'",
-			"end": "'",
-			"patterns": [
-				{
-					"name": "constant.character.single-quote.escape.gold",
-					"match": "''"
-				}
-			]
-		},
+		
 		"comments": {
 			"name": "comment.line",
 			"begin": ";",
 			"end": "[\n\r]"
+		},
+
+
+		"declaration": {
+			"patterns": [
+				{"include": "#class-declaration"},
+				{"include": "#function-declaration"}
+			]
+		},
+		"class-declaration":{
+			"name": "meta.class",
+			"comment": "Labels class name and inherited class name, end impossible to match so will go to end of file",
+			"begin": "(class)(?:\\s+([\\w]+))(?:\\s+\\(([\\w]+)\\))?",
+			"begincaptures": {
+				"1": { "name": "storage.type.class"},
+				"2": { "name": "entity.name.type.class"},
+				"3": { "name": "entity.other.inherited-class"}
+			},
+			"patterns": [
+				{ "include": "#comments"},
+				{ "include": "#function-declaration"},
+				{ "include": "#keyword"},
+				{ "include": "#constant"}
+			],
+			"end": "(?=e)b"
+		},
+		"function-declaration":{
+			"name": "meta.function",
+			"comment": "",
+			"begin": "(function)\\s+([\\w]+)(?:\\s*(\\(.*\\)))?\\s+(return)\\s+[\\w]+(?:\\s+([\\w]+))?(?:\\s+([\\w]+))?",
+			"beginCaptures": {
+				"1": { "name": "storage.type.function" },
+				"2": { "name": "entity.name.function"},
+				"3": { "patterns": [
+					{"include": "#parameters"}
+				]},
+				"4": { "name": "keyword.control.flow"}
+			},
+			"end": "(endFunc)",
+			"endCaptures": {
+				"1": { "name": "storage.type.function" }
+			}
+		},
+		"parameters" : {
+			
+		},
+
+
+		"keyword": {
+			"patterns": [
+				{ "include": "#keyword-storage-type"},
+				{ "include": "#keyword-control"}
+			]
+		},
+		"keyword-storage-type": {
+			"name": "storage.type",
+			"match": "\\bclass\\b|\\bfunction\\b|\\bprocedure\\b"
+		},
+		"keyword-control": {
+			"name": "keyword.control",
+			"match": "\\b(if|while|for|return)\\b"
+		},
+
+
+		"constant":{
+			"patterns": [
+				{"include": "#constant-boolean"},
+				{"include": "#constant-nil"},
+				{"include": "#constant-integer"},
+				{"include": "#constant-decimal"},
+				{"include": "#constant-character"},
+				{"include": "#constant-string"}
+			]
 		},
 		"constant-boolean":{
 			"name": "constant.language.boolean",
@@ -55,40 +108,16 @@
 			"name": "constant.character",
 			"match": "#\\d{1,3}\\b"
 		},
-		"declaration": {
+		"constant-string": {
+			"name": "string.quoted.single.gold",
+			"begin": "'",
+			"end": "'",
 			"patterns": [
-				{"include": "#class-declaration"},
-				{"include": "#function-declaration"}
+				{
+					"name": "constant.character.single-quote.escape.gold",
+					"match": "''"
+				}
 			]
-		},
-		"class-declaration":{
-			"name": "meta.class",
-			"comment": "Labels class name and inherited class name, end impossible to match so will go to end of file",
-			"begin": "class(?:\\s+([\\w]+))?(?:\\s+(?:\\(([\\w]+)\\)))?",
-			"begincaptures": {
-				"1": { "name": "entity.name.type.class" },
-				"2": { "name": "entity.other.inherited-class"}
-			},
-			"patterns": [
-				{"include": "#function-declaration"},
-				{"include": "#keywords-storage"}
-				
-			],
-			"end": "(?=e)b"
-		},
-		"function-declaration":{
-			"name": "meta.function",
-			"comment": "",
-			"begin": "(function)\\s+([\\w]+)(\\s*\\(.*\\))?\\s+return(\\s+[\\w]+)(\\s+[\\w]+)?(\\s+[\\w]+)?",
-			"beginCaptures": {
-				"1": { "name": "storage.type.function" }
-			},
-			"end": "endFunc"
-		},
-		
-		"keywords-storage": {
-			"name": "storage.type.function",
-			"match": "function|procedure"
 		}
 	},
 	"scopeName": "source.gold"
