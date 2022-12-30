@@ -27,7 +27,7 @@
 		"class-declaration":{
 			"name": "meta.class",
 			"comment": "Labels class name and inherited class name, end impossible to match so will go to end of file",
-			"match": "\\b(class)(?:\\s+(\\w*))(?:\\s+\\(([\\w]+)\\))?",
+			"match": "\\b(?:(class)\\s+)(?:(\\w+))?(?:\\s*\\(([\\w]+)\\))?",
 			"captures": {
 				"1": { "name": "storage.type.class"},
 				"2": { "patterns": [{"include": "#class-name"}]},
@@ -94,13 +94,6 @@
 				"1": { "name": "storage.type.procedure"}
 			}
 		},
-		"parameters" : {
-			"name": "meta.parameters",
-			"comment": "TODO",
-			"begin": "\\(",
-			"patterns": [{"include": "#variable-parameters-declaration"}],
-			"end": "\\)"
-		},
 		"variable-class-declaration": {
 			"name": "meta.definition.variable.class",
 			"comment": "[memory]? {variableName} : [refTo/listOf] '[P,A,T]' {var-type}",
@@ -114,13 +107,40 @@
 				"6": {"patterns": [{"include": "#type-name"}]}
 			}
 		},
+		"parameters" : {
+			"name": "meta.parameters",
+			"comment": "([var|const|inOut] {paramName} : {paramType}, ...)",
+			"begin": "\\(",
+			"patterns": [{"include": "#variable-parameters-declarations"}],
+			"end": "\\)"
+		},
+		"variable-parameters-declarations": {
+			"match": "\\b([\\w\\:\\s]+)(?:\\*,\\s*([\\w\\:\\s]+))?",
+			"comment": "recursive regex for multiple parameters",
+			"captures": {
+				"1": {
+					"patterns": [
+						{"include": "#variable-parameters-declaration"},
+						{"include": "#variable-parameters-declaration-like"}
+					]
+				},
+				"2": {"patterns": [{"include": "#variable-parameters-declarations"}]}
+			}
+		},
 		"variable-parameters-declaration": {
-			"match": "\\b(?:(\\w+)\\s+)?(?:(\\w+))(?:\\s*(\\:)\\s*)(?:(\\w+))",
+			"match": "\\b(?:(const|inOut|var)\\s+)?(?:(\\w+))(?:\\s*(\\:)\\s*)(?:(\\w+))?",
 			"captures": {
 				"1": {"patterns": [{"include": "#storage-modifier-variable-parameters"}]},
 				"2": {"patterns": [{"include": "#variable-name-class"}]},
 				"3": {"name": "keyword.operator.type.annotation"},
 				"4": {"patterns": [{"include": "#type-name"}]}
+			}
+		},
+		"variable-parameters-declaration-like": {
+			"match": "\\b(?:(const|inOut|var))(?:\\s+(\\w+))?",
+			"captures": {
+				"1": {"patterns": [{"include": "#storage-modifier-variable-parameters"}]},
+				"2": {"patterns": [{"include": "#variable-name-class"}]}
 			}
 		},
 
