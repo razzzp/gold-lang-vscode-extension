@@ -1,7 +1,11 @@
 class aTestClass (aClass)
 
-function testFunction() return Int4 private override
-if condition
+memory testClassVar :refTo [asdw,wdwa] SomeType
+memory testClassVar:listOf SomeOtherType
+testClassVar: cstring
+
+function testFunction(inOut asd:asd) return Int4 private override
+ if condition
 elseif
 endIf
 endFunc

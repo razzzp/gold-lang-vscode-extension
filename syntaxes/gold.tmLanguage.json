@@ -20,7 +20,8 @@
 			"patterns": [
 				{"include": "#class-declaration"},
 				{"include": "#function-declaration"},
-				{"include": "#procedure-declaration"}
+				{"include": "#procedure-declaration"},
+				{"include": "#variable-class-declaration"}
 			]
 		},
 		"class-declaration":{
@@ -42,7 +43,7 @@
 		},
 		"function-declaration-start":{
 			"name": "meta.function.start",
-			"comment": "Function header",
+			"comment": "function {funcName} ({parameters}) return [return-type] [protected/private] [override/final]",
 			"match": "\\b(function)\\s+(\\w+)(?:\\s*(\\([^)]*\\)?))?(?:\\s*(return)(?:\\s+([\\w]+))?)?(?:\\s+([\\w]+))?(?:\\s+([\\w]+))?",
 			"captures": {
 				"1": { "name": "storage.type.function" },
@@ -51,7 +52,7 @@
 					{"include": "#parameters"}
 				]},
 				"4": { "name": "keyword.control.flow"},
-				"5": { "name": "meta.function.return-type"},
+				"5": { "name": "meta.function.return-type","patterns": [{"include": "#type-name"}]},
 				"6": { "patterns": [{"include": "#storage-modifier"}]},
 				"7": { "patterns": [{"include": "#storage-modifier-method"}]}
 			}
@@ -73,7 +74,7 @@
 		},
 		"procedure-declaration-start":{
 			"name": "meta.procedure.start",
-			"comment": "procedure header",
+			"comment": "procedure {procName} ({parameters}) [protected/private] [override/final]",
 			"match": "\\b(procedure)\\s+(\\w+)(?:\\s*(\\([^)]*\\)?))?(?:\\s*([\\w]+))?(?:\\s+([\\w]+))?",
 			"captures": {
 				"1": { "name": "storage.type.procedure" },
@@ -94,10 +95,43 @@
 			}
 		},
 		"parameters" : {
-			
+			"name": "meta.parameters",
+			"comment": "TODO",
+			"begin": "\\(",
+			"patterns": [{"include": "#variable-parameters-declaration"}],
+			"end": "\\)"
+		},
+		"variable-class-declaration": {
+			"name": "meta.definition.variable.class",
+			"comment": "[memory]? {variableName} : [refTo/listOf] '[P,A,T]' {var-type}",
+			"match": "\\b(?:(memory)\\s+)?(?:(\\w+)\\s*)?(?:(\\:)\\s*)(?:(refTo|listOf)\\s*(\\[[A-Za-z,\\s]*\\])?\\s*)?(?:(\\w+))?",
+			"captures": {
+				"1": {"name": "storage.modifier.variable.class"},
+				"2": {"patterns": [{"include": "#variable-name-class"}]},
+				"3": {"name": "keyword.operator.type.annotation"},
+				"4": {"patterns": [{"include": "#storage-modifier-variable-class"}]},
+				"5": {"patterns": [{"include": "#storage-modifier-reference"}]},
+				"6": {"patterns": [{"include": "#type-name"}]}
+			}
+		},
+		"variable-parameters-declaration": {
+			"match": "\\b(?:(\\w+)\\s+)?(?:(\\w+))(?:\\s*(\\:)\\s*)(?:(\\w+))",
+			"captures": {
+				"1": {"patterns": [{"include": "#storage-modifier-variable-parameters"}]},
+				"2": {"patterns": [{"include": "#variable-name-class"}]},
+				"3": {"name": "keyword.operator.type.annotation"},
+				"4": {"patterns": [{"include": "#type-name"}]}
+			}
 		},
 
 
+		"entity-name": {
+			"match": "\\b[A-Za-z_]\\w*\\b"
+		},
+		"type-name": {
+			"name": "entity.name.type",
+			"match": "\\b[A-Za-z_]\\w*\\b"
+		},
 		"class-name": {
 			"name": "entity.name.class",
 			"match": "\\b[A-Za-z_]\\w*\\b"
@@ -110,13 +144,18 @@
 			"name": "entity.name.function.procedure",
 			"match": "\\b[A-Za-z_]\\w*\\b"
 		},
+		"variable-name-class": {
+			"name": "variable.class",
+			"match": "\\b[A-Za-z_]\\w*\\b"
+		},
 
 
 		"storage": {
 			"patterns": [
 				{ "include": "#storage-class"},
 				{ "include": "#storage-function"},
-				{ "include": "#storage-procedure"}
+				{ "include": "#storage-procedure"},
+				{ "include": "#storage-modifier-all"}
 			]
 		},
 		"storage-class": {
@@ -131,22 +170,41 @@
 			"name": "storage.type",
 			"match": "\\bprocedure\\b"
 		},
+		"storage-modifier-all": {
+			"patterns": [
+				{"include": "#storage-modifier"},
+				{"include": "#storage-modifier-method"},
+				{"include": "#storage-modifier-variable-parameters"},
+				{"include": "#storage-modifier-variable-class"},
+				{"include": "#storage-modifier-reference"}
+			]
+		},
 		"storage-modifier": {
 			"name": "storage.modifier",
-			"match": "\\b(protected|private)\\b",
-			"patterns": [
-				{"include": "#storage-modifier-method"},
-				{"include": "#storage-modifier-variable-parameters"}
-			]
+			"match": "\\b(protected|private)\\b"
 		},
 		"storage-modifier-method": {
 			"name": "storage.modifier.method",
-			"match": "\\b(override|final)\\b"
+			"match": "\\b(override|final)\\b",
+			"include": "#storage-modifier"
 		},
 		"storage-modifier-variable-parameters": {
 			"name": "storage.modifier.variable",
-			"match": "\\b(const|inout|var)\\b"
+			"match": "\\b(const|inOut|var)\\b"
 		},
+		"storage-modifier-variable-class": {
+			"name": "storage.modifier.variable.class",
+			"match": "\\b(memory|refTo|listOf)\\b",
+			"include": "#storage-modifier"
+		},
+		"storage-modifier-reference": {
+			"name": "storage.modifier.reference.annotation",
+			"comment": "TODO",
+			"begin": "\\[",
+			"end": "\\]",
+			"match": ""
+		},
+
 
 		"keyword": {
 			"patterns": [
@@ -179,7 +237,7 @@
 			"name": "keyword.control.loop",
 			"match": "\\b(while|for|forEach|loop|repeat)\\b"
 		},
-		"keyword-control-end": {
+		"keyword-control-loop-end": {
 			"name": "keyword.control.loop",
 			"match": "\\b(endWhile|endFor|endLoop|until)\\b"
 		},

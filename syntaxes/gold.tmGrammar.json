@@ -1,5 +1,6 @@
 {
   "scopeName": "source.gold",
+  "uuid": "63661b9d-cf52-4bbe-b3e2-251d5072cf91",
   "patterns": [{ "include": "#comments" }],
   "repository": {
     "comments": {
@@ -181,7 +182,5 @@
       "end": "(endProc)",
       "name": "entity.other"
     }
-  ],
-  "scopeName": "source.gold",
-  "uuid": "63661b9d-cf52-4bbe-b3e2-251d5072cf91"
+  ]
 }
