@@ -21,7 +21,8 @@
 				{"include": "#class-declaration"},
 				{"include": "#function-declaration"},
 				{"include": "#procedure-declaration"},
-				{"include": "#variable-class-declaration"}
+				{"include": "#variable-class-declaration"},
+				{"include": "#variable-local-declaration"}
 			]
 		},
 		"class-declaration":{
@@ -44,7 +45,7 @@
 		"function-declaration-start":{
 			"name": "meta.function.start",
 			"comment": "function {funcName} ({parameters}) return [return-type] [protected/private] [override/final]",
-			"match": "\\b(function)\\s+(\\w+)(?:\\s*(\\([^)]*\\)?))?(?:\\s*(return)(?:\\s+([\\w]+))?)?(?:\\s+([\\w]+))?(?:\\s+([\\w]+))?",
+			"match": "\\b(function)\\s+(\\w+)(?:\\s*(\\([^)]*\\)?))?(?:\\s*(return)(?:\\s+([\\w]+))?)?(?:\\s+([\\w\\s]+))?",
 			"captures": {
 				"1": { "name": "storage.type.function" },
 				"2": { "patterns": [{"include": "#function-name"}]},
@@ -53,8 +54,7 @@
 				]},
 				"4": { "name": "keyword.control.flow"},
 				"5": { "name": "meta.function.return-type","patterns": [{"include": "#type-name"}]},
-				"6": { "patterns": [{"include": "#storage-modifier"}]},
-				"7": { "patterns": [{"include": "#storage-modifier-method"}]}
+				"6": { "patterns": [{"include": "#storage-modifier-scope-list"}]}
 			}
 		},
 		"function-declaration-end": {
@@ -75,15 +75,14 @@
 		"procedure-declaration-start":{
 			"name": "meta.procedure.start",
 			"comment": "procedure {procName} ({parameters}) [protected/private] [override/final]",
-			"match": "\\b(procedure)\\s+(\\w+)(?:\\s*(\\([^)]*\\)?))?(?:\\s*([\\w]+))?(?:\\s+([\\w]+))?",
+			"match": "\\b(procedure)\\s+(\\w+)(?:\\s*(\\([^)]*\\)?))?(?:\\s*([\\w\\s]+))?",
 			"captures": {
 				"1": { "name": "storage.type.procedure" },
 				"2": { "patterns": [{"include": "#procedure-name"}]},
 				"3": { "patterns": [
 					{"include": "#parameters"}
 				]},
-				"4": { "name": "storage.modifier"},
-				"5": { "name": "storage.modifier"}
+				"4": { "patterns": [{"include": "#storage-modifier-scope-list"}]}
 			}
 		},
 		"procedure-declaration-end": {
@@ -103,7 +102,7 @@
 				"2": {"patterns": [{"include": "#variable-name-class"}]},
 				"3": {"name": "keyword.operator.type.annotation"},
 				"4": {"patterns": [{"include": "#storage-modifier-variable-class"}]},
-				"5": {"patterns": [{"include": "#storage-modifier-reference"}]},
+				"5": {"patterns": [{"include": "#storage-modifier-references"}]},
 				"6": {"patterns": [{"include": "#type-name"}]}
 			}
 		},
@@ -115,13 +114,14 @@
 			"end": "\\)"
 		},
 		"variable-parameters-declarations": {
-			"match": "\\b([\\w\\:\\s]+)(?:\\*,\\s*([\\w\\:\\s]+))?",
+			"match": "\\b([\\w\\:\\s]+)(?:\\s*,\\s*([\\w\\:\\s,]+))?",
 			"comment": "recursive regex for multiple parameters",
 			"captures": {
 				"1": {
 					"patterns": [
 						{"include": "#variable-parameters-declaration"},
-						{"include": "#variable-parameters-declaration-like"}
+						{"include": "#variable-parameters-declaration-like"},
+						{"include": "#variable-parameters-declaration-like-nomodifier"}
 					]
 				},
 				"2": {"patterns": [{"include": "#variable-parameters-declarations"}]}
@@ -143,6 +143,23 @@
 				"2": {"patterns": [{"include": "#variable-name-class"}]}
 			}
 		},
+		"variable-parameters-declaration-like-nomodifier": {
+			"match": "\\b(?:(\\w+))",
+			"captures": {
+				"1": {"patterns": [{"include": "#variable-name-class"}]}
+			}
+		},
+		"variable-local-declaration": {
+			"name": "meta.definition.variable.local",
+			"comment": "var {variableName} : {var-type}",
+			"match": "\\b(?:(var)\\s+)(\\w+)?(?:\\s*(\\:)\\s*)?(\\w+)?",
+			"captures": {
+				"1": {"name": "storage.modifier.variable.local"},
+				"2": {"patterns": [{"include": "#variable-name-local"}]},
+				"3": {"name": "keyword.operator.type.annotation"},
+				"4": {"patterns": [{"include": "#type-name"}]}
+			}
+		},
 
 
 		"entity-name": {
@@ -162,6 +179,10 @@
 		},
 		"procedure-name": {
 			"name": "entity.name.function.procedure",
+			"match": "\\b[A-Za-z_]\\w*\\b"
+		},
+		"variable-name-local": {
+			"name": "variable.local",
 			"match": "\\b[A-Za-z_]\\w*\\b"
 		},
 		"variable-name-class": {
@@ -192,21 +213,22 @@
 		},
 		"storage-modifier-all": {
 			"patterns": [
-				{"include": "#storage-modifier"},
-				{"include": "#storage-modifier-method"},
+				{"include": "#storage-modifier-scope"},
 				{"include": "#storage-modifier-variable-parameters"},
 				{"include": "#storage-modifier-variable-class"},
 				{"include": "#storage-modifier-reference"}
 			]
 		},
-		"storage-modifier": {
-			"name": "storage.modifier",
-			"match": "\\b(protected|private)\\b"
+		"storage-modifier-scope": {
+			"name": "storage.modifier.scope",
+			"match": "\\b(protected|private|override|final)\\b"
 		},
-		"storage-modifier-method": {
-			"name": "storage.modifier.method",
-			"match": "\\b(override|final)\\b",
-			"include": "#storage-modifier"
+		"storage-modifier-scope-list": {
+			"match": "\\b(\\w+)(?:\\s+([\\w\\s]+))?",
+			"captures": {
+				"1": {"patterns": [{"include": "#storage-modifier-scope"}]},
+				"2": {"patterns": [{"include": "#storage-modifier-scope-list"}]}
+			}
 		},
 		"storage-modifier-variable-parameters": {
 			"name": "storage.modifier.variable",
@@ -217,16 +239,28 @@
 			"match": "\\b(memory|refTo|listOf)\\b",
 			"include": "#storage-modifier"
 		},
-		"storage-modifier-reference": {
-			"name": "storage.modifier.reference.annotation",
-			"comment": "TODO",
+		"storage-modifier-references": {
+			"comment": "'[' [V | Versioned | IsVersioned | T | InTransaction | O |  IsOwner | P |  IsCurProject | I | IsIntegral | A | IsActive] ']'",
 			"begin": "\\[",
 			"end": "\\]",
-			"match": ""
+			"patterns": [{"include": "#storage-modifier-reference-list"}]
+		},
+		"storage-modifier-reference-list": {
+			"match": "\\b(?:([A-Za-z]+))(?:\\s*,\\s*([A-Za-z,\\s]+))?",
+			"comment": "recursive annotations",
+			"captures": {
+				"1": {"patterns":[{"include": "#storage-modifier-reference"}]},
+				"2": {"patterns": [{"include": "#storage-modifier-reference-list"}]}
+			}
+		},
+		"storage-modifier-reference": {
+			"name": "storage.modifier.reference",
+			"comment": "matchine single reference annotation",
+			"match": "\\b(Versioned|IsVersioned|InTransaction|IsOwner|IsCurProject|IsIntegral|IsActive|V|T|O|P|I|A)\\b"
 		},
 
 
-		"keyword": {
+		"keyword":{
 			"patterns": [
 				{ "include": "#keyword-control"}
 			]

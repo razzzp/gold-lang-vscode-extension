@@ -1,17 +1,28 @@
 class aTestClass (aClass)
 class _anotherTestClass(ParentClass)
 
-memory testClassVar :refTo [asdw,wdwa] SomeType
-memory testClassVar:listOf SomeOtherType
-testClassVar: cstring
+; this is some comment
 
-function testFunction(inOut adw: awd, const adw: wddd, awad :awd ) return Int4 private override
- if condition
-elseif
-endIf
+memory testClassVar1 :refTo [P,IsActive, InTransaction,V] SomeType
+memory testClassVar2:listOf SomeOtherType       
+    testClassVar3     :      NonReftoType private final 
+testClassVar: cstring
+awdawd: sometype
+
+function testFunction(inOut adw: awd, const adw: wddd, noModiferParam: Type  ) return Int4 private override
+    var localVar : LocalVarType
+    var _localVar2:_local2VarType
+    var     last    :    localVar()
+    if condition
+        elseif
+    endIf
 endFunc
 
-procedure testProc protected override
+procedure testProc private override
+
+endProc
+
+    procedure    testProc    (someParam:SomeType)     protected      final
 
 endProc
 
