@@ -13,6 +13,11 @@ function testFunction(inOut adw: awd, const adw: wddd, noModiferParam: Type  ) r
     var localVar : LocalVarType
     var _localVar2:_local2VarType
     var     last    :    localVar()
+
+    someVar.someProperty  . somePropOfProp  . finallyAFunctionCall  (param1, param2, param3)
+    
+    aFunctionCall()
+    Object.callFromAnObject()
     if condition
         elseif
     endIf

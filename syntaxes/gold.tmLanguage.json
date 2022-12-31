@@ -2,11 +2,13 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Gold",
 	"patterns": [
-		{ "include": "#comments"},
-		{ "include": "#declaration"},
-		{ "include": "#keyword"},
-		{ "include": "#storage"},
-		{ "include": "#constant"}
+		{"include": "#comments"},
+		{"include": "#declaration"},
+		{"include": "#statement"},
+		{"include": "#keyword"},
+		{"include": "#storage"},
+		{"include": "#constant"},
+		{"include": "#variable"}
 	],
 	"repository": {		
 		"comments": {
@@ -50,7 +52,7 @@
 				"1": { "name": "storage.type.function" },
 				"2": { "patterns": [{"include": "#function-name"}]},
 				"3": { "patterns": [
-					{"include": "#parameters"}
+					{"include": "#parameters-declaration"}
 				]},
 				"4": { "name": "keyword.control.flow"},
 				"5": { "name": "meta.function.return-type","patterns": [{"include": "#type-name"}]},
@@ -80,7 +82,7 @@
 				"1": { "name": "storage.type.procedure" },
 				"2": { "patterns": [{"include": "#procedure-name"}]},
 				"3": { "patterns": [
-					{"include": "#parameters"}
+					{"include": "#parameters-declaration"}
 				]},
 				"4": { "patterns": [{"include": "#storage-modifier-scope-list"}]}
 			}
@@ -96,24 +98,25 @@
 		"variable-class-declaration": {
 			"name": "meta.definition.variable.class",
 			"comment": "[memory]? {variableName} : [refTo/listOf] '[P,A,T]' {var-type}",
-			"match": "\\b(?:(memory)\\s+)?(?:(\\w+)\\s*)?(?:(\\:)\\s*)(?:(refTo|listOf)\\s*(\\[[A-Za-z,\\s]*\\])?\\s*)?(?:(\\w+))?",
+			"match": "\\b(?:(memory)\\s+)?(?:(\\w+)\\s*)?(?:(\\:)\\s*)(?:(refTo|listOf)\\s*(\\[[A-Za-z,\\s]*\\])?\\s*)?(?:(\\w+))?(?:\\s+([\\w\\s]+))?",
 			"captures": {
 				"1": {"name": "storage.modifier.variable.class"},
 				"2": {"patterns": [{"include": "#variable-name-class"}]},
 				"3": {"name": "keyword.operator.type.annotation"},
 				"4": {"patterns": [{"include": "#storage-modifier-variable-class"}]},
 				"5": {"patterns": [{"include": "#storage-modifier-references"}]},
-				"6": {"patterns": [{"include": "#type-name"}]}
+				"6": {"patterns": [{"include": "#type-name"}]},
+				"7": { "patterns": [{"include": "#storage-modifier-scope-list"}]}
 			}
 		},
-		"parameters" : {
+		"parameters-declaration" : {
 			"name": "meta.parameters",
 			"comment": "([var|const|inOut] {paramName} : {paramType}, ...)",
 			"begin": "\\(",
-			"patterns": [{"include": "#variable-parameters-declarations"}],
+			"patterns": [{"include": "#variable-parameters-declaration-list"}],
 			"end": "\\)"
 		},
-		"variable-parameters-declarations": {
+		"variable-parameters-declaration-list": {
 			"match": "\\b([\\w\\:\\s]+)(?:\\s*,\\s*([\\w\\:\\s,]+))?",
 			"comment": "recursive regex for multiple parameters",
 			"captures": {
@@ -124,7 +127,7 @@
 						{"include": "#variable-parameters-declaration-like-nomodifier"}
 					]
 				},
-				"2": {"patterns": [{"include": "#variable-parameters-declarations"}]}
+				"2": {"patterns": [{"include": "#variable-parameters-declaration-list"}]}
 			}
 		},
 		"variable-parameters-declaration": {
@@ -162,6 +165,60 @@
 		},
 
 
+		"statement": {
+			"patterns": [
+				{"include": "#function-call"},
+				{"include": "#access-recursive"}
+			]
+		},
+		"access-recursive" :{
+			"comment": "PROBABLY CAN EASILY BREAK THINGS :D. TO REVIEW. TODO",
+			"match": "([^\\.]+)(?:\\s*(\\.)\\s*)(.*)",
+			"captures": {
+				"1": {
+					"patterns": [
+						{"include": "#function-call"},
+						{"include": "#variable"}
+					]},
+				"2": {"name": "keyword.operator.access-property"},
+				"3": {"patterns": [
+					{"include": "#access-recursive"},
+					{"include": "#function-call"},
+					{"include": "#variable"}
+					]}
+			}
+		},
+		"function-call" :{
+			"name": "meta.function-call",
+			"match": "(?:(\\w+)\\s*(\\(.*\\)))",
+			"captures": {
+				"1": {"patterns": [{"include": "#function-name"}]},
+				"2": {"patterns": [{"include": "#parameters"}]}
+			}
+		},
+		"parameters": {
+			"name": "meta.function-call.parameters",
+			"begin": "\\(",
+			"patterns": [{"include": "#parameters-list"}],
+			"end": "\\)"
+		},
+		"parameters-list":{
+			"match": "\\b([\\w]+)(?:\\s*,\\s*([\\w,]+))?",
+			"comment": "recursive rule for multiple parameters",
+			"captures": {
+				"1": {
+					"patterns": [
+						{"include": "#parameter"}
+					]
+				},
+				"2": {"patterns": [{"include": "#parameters-list"}]}
+			}
+		},
+		"parameter":{
+			"patterns": [{"include": "#variable"}]
+		},
+		
+
 		"entity-name": {
 			"match": "\\b[A-Za-z_]\\w*\\b"
 		},
@@ -187,6 +244,10 @@
 		},
 		"variable-name-class": {
 			"name": "variable.class",
+			"match": "\\b[A-Za-z_]\\w*\\b"
+		},
+		"variable": {
+			"name": "variable.other",
 			"match": "\\b[A-Za-z_]\\w*\\b"
 		},
 
@@ -236,8 +297,7 @@
 		},
 		"storage-modifier-variable-class": {
 			"name": "storage.modifier.variable.class",
-			"match": "\\b(memory|refTo|listOf)\\b",
-			"include": "#storage-modifier"
+			"match": "\\b(memory|refTo|listOf)\\b"
 		},
 		"storage-modifier-references": {
 			"comment": "'[' [V | Versioned | IsVersioned | T | InTransaction | O |  IsOwner | P |  IsCurProject | I | IsIntegral | A | IsActive] ']'",
