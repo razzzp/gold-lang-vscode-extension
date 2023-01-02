@@ -1,0 +1,13 @@
+{
+	"tokenColors": [
+		{
+			"name": "Key Word Logical",
+			"scope": "keyword.operator.logical",
+			"settings": {
+				"foreground": "#569CD6"
+			}
+		}
+	],
+	"colors": {},
+	"name": "Gold Color Scheme"
+}
