@@ -322,7 +322,8 @@
 
 		"keyword":{
 			"patterns": [
-				{ "include": "#keyword-control"}
+				{"include": "#keyword-control"},
+				{"include": "#keyword-operator"}
 			]
 		},
 		"keyword-control": {
@@ -363,6 +364,50 @@
 			"name": "keyword.control.flow",
 			"match": "\\b(return|exit|break|continue)\\b"
 		},
+		"keyword-operator":{
+			"patterns": [
+				{"include": "#keyword-operator-arithmetic"},
+				{"include": "#keyword-operator-string"},
+				{"include": "#keyword-operator-shift"},
+				{"include": "#keyword-operator-comparison"},
+				{"include": "#keyword-operator-logical"},
+				{"include": "#keyword-operator-bitwise"},
+				{"include": "#keyword-operator-other"}
+			]
+		},
+		"keyword-operator-arithmetic":{
+			"name": "keyword.operator.arithmetic",
+			"match": "\\+\\+|\\*|\\/|%|\\+|-"
+		},
+		"keyword-operator-string":{
+			"name": "keyword.operator.string",
+			"match": "&&|\\blike\\b"
+		},
+		"keyword-operator-shift":{
+			"name": "keyword.operator.shift",
+			"match": ">>|<<"
+		},
+		"keyword-operator-assignment":{
+			"name": "keyword.operator.comparison",
+			"match": "=|:="
+		},
+		"keyword-operator-comparison":{
+			"name": "keyword.operator.comparison",
+			"match": "<>|<=|>=|<|>|="
+		},
+		"keyword-operator-logical":{
+			"name": "keyword.operator.logical",
+			"match": "\\b(and|or|not|xor)\\b"
+		},
+		"keyword-operator-bitwise":{
+			"name": "keyword.operator.bitwise",
+			"match": "\\b(bAnd|bOr|bNot|bXor)\\b"
+		},
+		"keyword-operator-other":{
+			"name": "keyword.operator.other",
+			"match": "\\bin\\b|@|\\."
+		},
+
 
 
 		"constant":{

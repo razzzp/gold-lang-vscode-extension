@@ -20,6 +20,10 @@
       "language": "gold",
       "scopeName": "source.gold",
       "path": "./syntaxes/gold.tmLanguage.json"
+    }],
+    "themes": [{
+      "path": "./themes/gold.tmTheme",
+      "uiTheme": "vs-dark"
     }]
   }
 }

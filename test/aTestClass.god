@@ -18,7 +18,7 @@ function testFunction(inOut adw: awd, const adw: wddd, noModiferParam: Type  ) r
     
     aFunctionCall()
     Object.callFromAnObject()
-    if condition
+    if somecondition = 11 and not otherCondition
         elseif
     endIf
 endFunc
