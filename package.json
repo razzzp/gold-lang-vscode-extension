@@ -21,11 +21,6 @@
       "language": "gold",
       "scopeName": "source.gold",
       "path": "./syntaxes/gold.tmLanguage.json"
-    }],
-    "themes": [{
-      "label": "Gold Color Scheme",
-      "uiTheme": "vs-dark",
-      "path": "./themes/gold.tmTheme.json"
     }]
   }
 }

@@ -9,7 +9,8 @@ memory testClassVar2:listOf SomeOtherType
 testClassVar: cstring
 awdawd: sometype
 
-function testFunction(inOut adw: awd, const adw: wddd, noModiferParam: Type  ) return Int4 private override
+function testFunction(inOut adw: awd, 
+        const adw: wddd, noModiferParam: Type  ) return Int4 private override
     var localVar : LocalVarType
     var _localVar2:_local2VarType
     var     last    :    localVar()
@@ -18,6 +19,8 @@ function testFunction(inOut adw: awd, const adw: wddd, noModiferParam: Type  ) r
     
     aFunctionCall()
     Object.callFromAnObject()
+    if adwadd.awdawdawd.awd().
+    endif
     if somecondition = 11 and not otherCondition
         elseif
     endIf

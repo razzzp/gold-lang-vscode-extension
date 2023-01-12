@@ -173,7 +173,7 @@
 		},
 		"access-recursive" :{
 			"comment": "PROBABLY CAN EASILY BREAK THINGS :D. TO REVIEW. TODO",
-			"match": "([^\\.]+)(?:\\s*(\\.)\\s*)(.*)",
+			"match": "\\b([^\\.\\S]+)(?:\\s*(\\.)\\s*)(.*)",
 			"captures": {
 				"1": {
 					"patterns": [
@@ -293,11 +293,11 @@
 		},
 		"storage-modifier-variable-parameters": {
 			"name": "storage.modifier.variable",
-			"match": "\\b(const|inOut|var)\\b"
+			"match": "\\b(const|inOut|inout|var)\\b"
 		},
 		"storage-modifier-variable-class": {
 			"name": "storage.modifier.variable.class",
-			"match": "\\b(memory|refTo|listOf)\\b"
+			"match": "\\b(memory|refTo|refto|listOf|listof)\\b"
 		},
 		"storage-modifier-references": {
 			"comment": "'[' [V | Versioned | IsVersioned | T | InTransaction | O |  IsOwner | P |  IsCurProject | I | IsIntegral | A | IsActive] ']'",
@@ -342,23 +342,23 @@
 		},
 		"keyword-control-conditional-intermediate": {
 			"name": "keyword.control.conditional",
-			"match": "\\b(elseif|else)\\b"
+			"match": "\\b(elseif|elseIf|else)\\b"
 		},
 		"keyword-control-conditional-end": {
 			"name": "keyword.control.conditional",
-			"match": "\\b(endIf|endSwitch|endWhen)\\b"
+			"match": "\\b(endIf|endif|endSwitch|endswitch|endWhen|endwhen)\\b"
 		},
 		"keyword-control-loop-start": {
 			"name": "keyword.control.loop",
-			"match": "\\b(while|for|forEach|loop|repeat)\\b"
+			"match": "\\b(while|for|forEach|foreach|loop|repeat)\\b"
 		},
 		"keyword-control-loop-end": {
 			"name": "keyword.control.loop",
-			"match": "\\b(endWhile|endFor|endLoop|until)\\b"
+			"match": "\\b(endWhile|endwhile|endFor|endfor|endLoop|endloop|until)\\b"
 		},
 		"keyword-control-trycatch": {
 			"name": "keyword.control.trycatch",
-			"match": "\\b(try|catch|finally|endTry)\\b"
+			"match": "\\b(try|catch|finally|endTry|endtry)\\b"
 		},
 		"keyword-control-flow": {
 			"name": "keyword.control.flow",
