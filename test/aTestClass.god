@@ -16,7 +16,7 @@ function testFunction(inOut adw: awd,
     var     last    :    localVar()
 
     someVar.someProperty  . somePropOfProp  . finallyAFunctionCall  (param1, param2, param3)
-    
+    ; 
     aFunctionCall()
     Object.callFromAnObject()
     if adwadd.awdawdawd.awd().

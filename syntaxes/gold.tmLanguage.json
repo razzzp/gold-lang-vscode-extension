@@ -172,8 +172,9 @@
 			]
 		},
 		"access-recursive" :{
-			"comment": "PROBABLY CAN EASILY BREAK THINGS :D. TO REVIEW. TODO",
+			"comment": "PROBABLY CAN EASILY BREAK THINGS :D. Disabled for now. TO REVIEW. TODO",
 			"match": "\\b([^\\.\\S]+)(?:\\s*(\\.)\\s*)(.*)",
+			"disabled": 1,
 			"captures": {
 				"1": {
 					"patterns": [
@@ -266,11 +267,11 @@
 		},
 		"storage-function": {
 			"name": "storage.type",
-			"match": "\\bfunction\\b"
+			"match": "\\bfunction|func\\b"
 		},
 		"storage-procedure": {
 			"name": "storage.type",
-			"match": "\\bprocedure\\b"
+			"match": "\\bprocedure|proc\\b"
 		},
 		"storage-modifier-all": {
 			"patterns": [
@@ -377,35 +378,39 @@
 		},
 		"keyword-operator-arithmetic":{
 			"name": "keyword.operator.arithmetic",
-			"match": "\\+\\+|\\*|\\/|%|\\+|-"
+			"match": "(\\+\\+|\\*|\\/|%|\\+|-)"
 		},
 		"keyword-operator-string":{
-			"name": "keyword.operator.string",
-			"match": "&&|\\blike\\b"
+			"name": "keyword.other.operator.string",
+			"match": "(&&|\\blike\\b)"
 		},
 		"keyword-operator-shift":{
 			"name": "keyword.operator.shift",
-			"match": ">>|<<"
+			"match": "(>>|<<)"
 		},
 		"keyword-operator-assignment":{
 			"name": "keyword.operator.comparison",
-			"match": "=|:="
+			"match": "(=|:=)"
 		},
 		"keyword-operator-comparison":{
 			"name": "keyword.operator.comparison",
-			"match": "<>|<=|>=|<|>|="
+			"match": "(<>|<=|>=|<|>|=)"
 		},
 		"keyword-operator-logical":{
-			"name": "keyword.operator.logical",
+			"name": "keyword.other.operator.logical",
 			"match": "\\b(and|or|not|xor)\\b"
 		},
 		"keyword-operator-bitwise":{
-			"name": "keyword.operator.bitwise",
+			"name": "keyword.other.operator.bitwise",
 			"match": "\\b(bAnd|bOr|bNot|bXor)\\b"
+		},
+		"keyword-operator-in":{
+			"name": "keyword.other.operator.in",
+			"match": "\\b(in)\\b"
 		},
 		"keyword-operator-other":{
 			"name": "keyword.operator.other",
-			"match": "\\bin\\b|@|\\."
+			"match": "(@|\\.)"
 		},
 
 
@@ -431,20 +436,20 @@
 		},
 		"constant-integer":{
 			"name": "constant.numeric.integer",
-			"match": "\\b\\d+\\b"
+			"match": "\\b(\\d+)\\b"
 		},
 		"constant-decimal":{
 			"name": "constant.numeric.decimal",
-			"match": "\\b\\d+(\\.\\d*)?\\b"
+			"match": "\\b(\\d+(?:\\.\\d*)?)\\b"
 		},
 		"constant-character":{
 			"name": "constant.character",
-			"match": "#\\d{1,3}\\b"
+			"match": "(#\\d{1,3}\\b)"
 		},
 		"constant-string-single": {
 			"name": "string.quoted.single.gold",
 			"begin": "'",
-			"end": "'",
+			"end": "'(?=[^']|$)",
 			"patterns": [
 				{
 					"name": "constant.character.single-quote.escape.gold",
