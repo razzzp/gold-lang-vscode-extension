@@ -415,7 +415,8 @@
 				{"include": "#keyword-operator-logical"},
 				{"include": "#keyword-operator-bitwise"},
 				{"include": "#keyword-operator-other"},
-				{"include": "#keyword-operator-other-words"}
+				{"include": "#keyword-operator-other-words"},
+				{"include": "#keyword-operator-in"}
 			]
 		},
 		"keyword-operator-arithmetic":{

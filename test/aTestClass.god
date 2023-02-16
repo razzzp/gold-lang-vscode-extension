@@ -28,6 +28,10 @@ function testFunction(inOut adw: awd,
     if somecondition = 11 and not otherCondition
         elseif
     endIf
+
+    forEach adsa in blabla
+        doSomething()
+    endFor
 endFunc
 
 procedure testProc private override
