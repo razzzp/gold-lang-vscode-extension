@@ -23,5 +23,10 @@ The main grammar file for this extension can be found in ./syntaxes/gold.tmLangu
 
 ## Installation
 The extension has been pre-packaged(but not published) and can be found in /vsix
+
+To package:
+1. vsce is require, install by running 'npm install -g @vscode/vsce'
+2. Then in the project folder run 'vsce package', say yes to any prompts
+
 To install:
-1. Run the command 'code --install-extension ./vsix/gold-lang-[latest version].vsix'
+1. Run the command 'code --install-extension gold-lang-[latest version].vsix'
