@@ -1,5 +1,5 @@
 # gold-lang README
-## TODO:
+## TODO
 1. Fix Syntax highlighting for function calls and declaration
 2. Outline tab
 3. AutoComplete
