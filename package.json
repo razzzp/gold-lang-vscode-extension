@@ -11,17 +11,33 @@
     "Themes"
   ],
   "contributes": {
-    "languages": [{
-      "id": "gold",
-      "aliases": ["Gold", "gold"],
-      "extensions": [".gold",".god"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "gold",
-      "scopeName": "source.gold",
-      "path": "./syntaxes/gold.tmLanguage.json"
-    }],
-    "configurationDefaults": {"editor.indentSize": 3,"editor.tabSize": 3}
+    "languages": [
+      {
+        "id": "gold",
+        "aliases": [
+          "Gold",
+          "gold"
+        ],
+        "extensions": [
+          ".gold",
+          ".god"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "gold",
+        "scopeName": "source.gold",
+        "path": "./syntaxes/gold.tmLanguage.json"
+      }
+    ],
+    "configurationDefaults": {
+      "editor.indentSize": 3,
+      "editor.tabSize": 3
+    }
+  },
+  "dependencies": {
+    "@types/vscode": "^1.75.1"
   }
 }
