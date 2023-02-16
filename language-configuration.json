@@ -26,5 +26,16 @@
         ["(", ")"],
         ["\"", "\""],
         ["'", "'"]
-    ]
+    ],
+    "indentationRules": {
+        "increaseIndentPattern": "\\((?![^\\)]+\\)|\\))|\\b(func|function|proc|procedure|if|for|forEach|foreach|while|switch|when|record)\\b",
+        "decreaseIndentPattern": "(?![^\\(])\\)|\\b(endfunc|endFunc|endProc|endproc|endif|endIf|endfor|endFor|endwhile|endWhile|endswitch|endSwitch|endWhen|endwhen|endrecord|endRecord)\\b"
+    },
+    "folding": {
+        "markers": {
+            "start": "func|function|proc|procedure",
+            "end": "endfunc|endFunc|endProc|endproc"
+        },
+        "offSide": false
+    },
 }

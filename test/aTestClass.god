@@ -15,11 +15,15 @@ function testFunction(inOut adw: awd,
     var _localVar2:_local2VarType
     var     last    :    localVar()
 
-    someVar.someProperty  . somePropOfProp  . finallyAFunctionCall  (param1, param2, param3)
+    someVar.someProperty.somePropOfProp.finallyAFunctionCall(param1, param2, param3)
     ; 
-    aFunctionCall()
+    awdw+123+asdw
+    test()
+    aFunctionCall(awdawds + awdwad, somefunc(awdwad,awdawd),'dwadasdaw',"awdasdawd")
+    
+
     Object.callFromAnObject()
-    if adwadd.awdawdawd.awd().
+    if adwadd.awdawdawd.awd()
     endif
     if somecondition = 11 and not otherCondition
         elseif
@@ -27,16 +31,25 @@ function testFunction(inOut adw: awd,
 endFunc
 
 procedure testProc private override
+    adaw(asdsd)
 
 endProc
 
     procedure    testProc    (someParam:SomeType)     protected      final
-
+        ;awdawdawd
 endProc
 
 function aedwadw() return adw protected final
+    ;aaaaaa
+    ;asdawdad
 
 endFunc
 
 function awd return Something
+    ;Ppoakwdkawd
+    ;okawdokawod
+endFunc
+
+func testfunc
+    adwadd
 endFunc

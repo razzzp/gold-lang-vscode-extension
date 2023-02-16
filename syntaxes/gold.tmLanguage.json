@@ -6,7 +6,6 @@
 		{"include": "#declaration"},
 		{"include": "#statement"},
 		{"include": "#keyword"},
-		{"include": "#storage"},
 		{"include": "#constant"},
 		{"include": "#variable"}
 	],
@@ -167,8 +166,8 @@
 
 		"statement": {
 			"patterns": [
-				{"include": "#function-call"},
-				{"include": "#access-recursive"}
+				{"include": "#access-recursive"},
+				{"include": "#function-call"}
 			]
 		},
 		"access-recursive" :{
@@ -191,36 +190,49 @@
 		},
 		"function-call" :{
 			"name": "meta.function-call",
-			"match": "(?:(\\w+)\\s*(\\(.*\\)))",
-			"captures": {
-				"1": {"patterns": [{"include": "#function-name"}]},
-				"2": {"patterns": [{"include": "#parameters"}]}
-			}
-		},
-		"parameters": {
-			"name": "meta.function-call.parameters",
-			"begin": "\\(",
-			"patterns": [{"include": "#parameters-list"}],
-			"end": "\\)"
+			"begin": "\\b(\\w+)\\s*\\(",
+			"beginCaptures": {
+				"1": {"patterns": [{"include": "#function-name"}]}
+			},
+			"end": "\\)",
+			"patterns": [
+				{"include": "#statement"},
+				{"include": "#keyword"},
+				{"include": "#constant"},
+				{"include": "#variable"},
+				{"include": "#entity-name"}
+			],
+			"contentName":"meta.function-call.parameters"
 		},
 		"parameters-list":{
-			"match": "\\b([\\w]+)(?:\\s*,\\s*([\\w,]+))?",
+			"match": ".*?",
 			"comment": "recursive rule for multiple parameters",
-			"captures": {
-				"1": {
-					"patterns": [
-						{"include": "#parameter"}
-					]
-				},
-				"2": {"patterns": [{"include": "#parameters-list"}]}
-			}
+			"patterns": [
+				{"include": "#statement"},
+				{"include": "#keyword"},
+				{"include": "#constant"},
+				{"include": "#variable"},
+				{"include": "#entity-name"}
+			]
 		},
 		"parameter":{
-			"patterns": [{"include": "#variable"}]
+			"patterns": [{"include": "#statement"}]
 		},
 		
 
 		"entity-name": {
+			"patterns": [
+				{"include": "#variable"},
+				{"include": "#type-name"},
+				{"include": "#class-name"},
+				{"include": "#function-name"},
+				{"include": "#procedure-name"},
+				{"include": "#variable-name-local"},
+				{"include": "#variable-name-class"}
+			]
+		},
+		"variable": {
+			"name": "variable.other",
 			"match": "\\b[A-Za-z_]\\w*\\b"
 		},
 		"type-name": {
@@ -247,10 +259,7 @@
 			"name": "variable.class",
 			"match": "\\b[A-Za-z_]\\w*\\b"
 		},
-		"variable": {
-			"name": "variable.other",
-			"match": "\\b[A-Za-z_]\\w*\\b"
-		},
+
 
 
 		"storage": {
@@ -258,7 +267,8 @@
 				{ "include": "#storage-class"},
 				{ "include": "#storage-function"},
 				{ "include": "#storage-procedure"},
-				{ "include": "#storage-modifier-all"}
+				{ "include": "#storage-modifier-all"},
+				{ "include": "#storage-type"}
 			]
 		},
 		"storage-class": {
@@ -272,6 +282,10 @@
 		"storage-procedure": {
 			"name": "storage.type",
 			"match": "\\bprocedure|proc\\b"
+		},
+		"storage-type": {
+			"name": "storage.type",
+			"match": "\\btype\\b"
 		},
 		"storage-modifier-all": {
 			"patterns": [
@@ -324,7 +338,8 @@
 		"keyword":{
 			"patterns": [
 				{"include": "#keyword-control"},
-				{"include": "#keyword-operator"}
+				{"include": "#keyword-operator"},
+				{"include": "#storage"}
 			]
 		},
 		"keyword-control": {
@@ -411,6 +426,10 @@
 		"keyword-operator-other":{
 			"name": "keyword.operator.other",
 			"match": "(@|\\.)"
+		},
+		"keyword-operator-other-words":{
+			"name": "keyword.other.operator.other",
+			"match": "\\b(uses|inverse)\\b"
 		},
 
 
