@@ -24,4 +24,4 @@ The main grammar file for this extension can be found in ./syntaxes/gold.tmLangu
 ## Installation
 The extension has been pre-packaged(but not published) and can be found in /vsix
 To install:
-1. Run the command 'code --install-extension ./vsix/gold-lang-0.0.2.vsix'
+1. Run the command 'code --install-extension ./vsix/gold-lang-[latest version].vsix'
