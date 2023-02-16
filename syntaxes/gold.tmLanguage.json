@@ -55,7 +55,7 @@
 				]},
 				"4": { "name": "keyword.control.flow"},
 				"5": { "name": "meta.function.return-type","patterns": [{"include": "#type-name"}]},
-				"6": { "patterns": [{"include": "#storage-modifier-scope-list"}]}
+				"6": { "patterns": [{"include": "#storage-modifier-method-list"}]}
 			}
 		},
 		"function-declaration-end": {
@@ -83,7 +83,7 @@
 				"3": { "patterns": [
 					{"include": "#parameters-declaration"}
 				]},
-				"4": { "patterns": [{"include": "#storage-modifier-scope-list"}]}
+				"4": { "patterns": [{"include": "#storage-modifier-method-list"}]}
 			}
 		},
 		"procedure-declaration-end": {
@@ -97,7 +97,7 @@
 		"variable-class-declaration": {
 			"name": "meta.definition.variable.class",
 			"comment": "[memory]? {variableName} : [refTo/listOf] '[P,A,T]' {var-type}",
-			"match": "\\b(?:(memory)\\s+)?(?:(\\w+)\\s*)?(?:(\\:)\\s*)(?:(refTo|listOf)\\s*(\\[[A-Za-z,\\s]*\\])?\\s*)?(?:(\\w+))?(?:\\s+([\\w\\s]+))?",
+			"match": "\\b(?:(memory)\\s+)?(?:(\\w+)\\s*)?(?:(\\:)\\s*)(?:(refTo|listOf)\\s*(\\[[A-Za-z,\\s]*\\])?\\s*)?(?:(\\w+))?(?:\\s+(?!inverse)([\\w\\s]+))?(?:\\s+(inverse)\\s+(\\w+))?",
 			"captures": {
 				"1": {"name": "storage.modifier.variable.class"},
 				"2": {"patterns": [{"include": "#variable-name-class"}]},
@@ -105,7 +105,9 @@
 				"4": {"patterns": [{"include": "#storage-modifier-variable-class"}]},
 				"5": {"patterns": [{"include": "#storage-modifier-references"}]},
 				"6": {"patterns": [{"include": "#type-name"}]},
-				"7": { "patterns": [{"include": "#storage-modifier-scope-list"}]}
+				"7": {"patterns": [{"include": "#storage-modifier-scope-list"}]},
+				"8": {"patterns": [{"include": "#storage-modifier-variable-class"}]},
+				"9": {"patterns": [{"include": "#variable-name-class"}]}
 			}
 		},
 		"parameters-declaration" : {
@@ -190,7 +192,7 @@
 		},
 		"function-call" :{
 			"name": "meta.function-call",
-			"begin": "\\b(\\w+)\\s*\\(",
+			"begin": "\\b(\\w+)\\(",
 			"beginCaptures": {
 				"1": {"patterns": [{"include": "#function-name"}]}
 			},
@@ -306,13 +308,37 @@
 				"2": {"patterns": [{"include": "#storage-modifier-scope-list"}]}
 			}
 		},
+		"storage-modifier-method": {
+			"name": "storage.modifier.scope",
+			"match": "\\b(forward)\\b"
+		},
+		"storage-modifier-method-list": {
+			"match": "\\b(\\w+)(?:\\s+([\\w\\s]+))?",
+			"captures": {
+				"1": {"patterns": [
+					{"include": "#storage-modifier-scope"},
+					{"include": "#storage-modifier-method"}
+					]},
+				"2": {"patterns": [{"include": "#storage-modifier-scope-list"}]}
+			}
+		},
+		"storage-modifier-variable-class-list": {
+			"match": "\\b(\\w+)(?:\\s+([\\w\\s]+))?",
+			"captures": {
+				"1": {"patterns": [
+					{"include": "#storage-modifier-scope"},
+					{"include": "#storage-modifier-method"}
+					]},
+				"2": {"patterns": [{"include": "#storage-modifier-scope-list"}]}
+			}
+		},
 		"storage-modifier-variable-parameters": {
 			"name": "storage.modifier.variable",
 			"match": "\\b(const|inOut|inout|var)\\b"
 		},
 		"storage-modifier-variable-class": {
 			"name": "storage.modifier.variable.class",
-			"match": "\\b(memory|refTo|refto|listOf|listof)\\b"
+			"match": "\\b(memory|refTo|refto|listOf|listof|inverse)\\b"
 		},
 		"storage-modifier-references": {
 			"comment": "'[' [V | Versioned | IsVersioned | T | InTransaction | O |  IsOwner | P |  IsCurProject | I | IsIntegral | A | IsActive] ']'",
@@ -388,7 +414,8 @@
 				{"include": "#keyword-operator-comparison"},
 				{"include": "#keyword-operator-logical"},
 				{"include": "#keyword-operator-bitwise"},
-				{"include": "#keyword-operator-other"}
+				{"include": "#keyword-operator-other"},
+				{"include": "#keyword-operator-other-words"}
 			]
 		},
 		"keyword-operator-arithmetic":{
