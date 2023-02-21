@@ -10,6 +10,7 @@
     "Programming Languages",
     "Themes"
   ],
+  "activationEvents": [],
   "contributes": {
     "languages": [
       {
@@ -39,5 +40,13 @@
   },
   "dependencies": {
     "@types/vscode": "^1.75.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.4.0",
+    "jest": "^29.4.3",
+    "ts-jest": "^29.0.5"
+  },
+  "scripts": {
+    "test" : "jest"
   }
 }
