@@ -1,4 +1,5 @@
 
 export default interface IGoldEntity{
-   name: string
+   name: string;
+   pos: number;
 }

@@ -12,6 +12,7 @@ export default interface IGoldClass extends IGoldEntity{
 }
 
 export class GoldClass implements IGoldClass{
+   pos: number;
    parentClass: string;
    variables: IGoldVariable[];
    methods: IGoldMethod[];

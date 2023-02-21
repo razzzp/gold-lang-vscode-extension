@@ -10,7 +10,7 @@
     "Programming Languages",
     "Themes"
   ],
-  "activationEvents": [],
+  "main": "./out/extension.js",
   "contributes": {
     "languages": [
       {
@@ -47,6 +47,9 @@
     "ts-jest": "^29.0.5"
   },
   "scripts": {
-    "test" : "jest"
+    "test" : "jest",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
   }
 }
