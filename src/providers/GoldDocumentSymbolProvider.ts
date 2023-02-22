@@ -1,6 +1,8 @@
 import { CancellationToken, DocumentSymbol, DocumentSymbolProvider, ProviderResult, Range, SymbolInformation, SymbolKind, TextDocument } from "vscode";
+import IGoldClass from "../entities/IGoldClass";
+import IGoldClassVariable from "../entities/IGoldClassVariable";
 import IGoldEntity from "../entities/IGoldEntity";
-import DocumentParser from "../parsers/GoldDocumentParser";
+import GoldDocumentParser from "../parsers/GoldDocumentParser";
 
 
 export default class GoldDocumentSymbolProvider implements DocumentSymbolProvider {
@@ -11,22 +13,49 @@ export default class GoldDocumentSymbolProvider implements DocumentSymbolProvide
       )
    }
 
+   private _generateGoldClassSymbol(goldClass : IGoldClass, document : TextDocument) :DocumentSymbol{
+      const range = this._getRangeForGoldEntity(document, goldClass)
+      const goldClassSymbol = new DocumentSymbol(
+         goldClass.name,
+         '', 
+         SymbolKind.Class, 
+         range,
+         range,
+      );
+      goldClassSymbol.children.push(...this._generateGoldClassVariablesSymbols(goldClass.variables, document));
+      return goldClassSymbol;
+   }
 
-   provideDocumentSymbols(document: TextDocument, token: CancellationToken): ProviderResult<SymbolInformation[] | DocumentSymbol[]> {
+   private _generateGoldClassVariablesSymbols(goldClassVariables : IGoldClassVariable[], document : TextDocument) : DocumentSymbol[]{
       const result = new Array<DocumentSymbol>();
       
-      const goldDocumentParser = new DocumentParser();
-      const goldClass = goldDocumentParser.parse(document.getText());
-      const range = this._getRangeForGoldEntity(document, goldClass)
-      if (goldClass) {
-         // TODO: Add class details
+      for(let classVar of goldClassVariables){
+         const range = this._getRangeForGoldEntity(document, classVar)
          result.push(new DocumentSymbol(
-            goldClass.name,
-            '', 
-            SymbolKind.Class, 
+            classVar.name,
+            classVar.type,
+            SymbolKind.Field,
             range,
             range
          ));
+      }
+      return result;
+   }
+
+   provideDocumentSymbols(document: TextDocument, token: CancellationToken): ProviderResult<SymbolInformation[] | DocumentSymbol[]> {
+      
+      // try to parse
+      const goldDocumentParser = new GoldDocumentParser();
+      const goldClass = goldDocumentParser.parse(document.getText());
+      if (!goldClass) return null;
+
+      // convert entities to vscode document symbols
+      const result = new Array<DocumentSymbol>();
+      const goldClassSymbol = this._generateGoldClassSymbol(goldClass,document);
+
+      if (goldClassSymbol) {
+         // TODO: Add class details
+         result.push(goldClassSymbol);
       }
 
       return result;
