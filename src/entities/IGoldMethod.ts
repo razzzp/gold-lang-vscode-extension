@@ -5,6 +5,7 @@ export default interface IGoldMethod extends IGoldEntity {
    get modifiers(): string;
    get paramaters():string;
    get returnType():string;
+   get scope(): string;
 }
 
 export class GoldMethod implements IGoldMethod {
@@ -14,4 +15,5 @@ export class GoldMethod implements IGoldMethod {
    modifiers: string;
    paramaters:string;
    returnType:string;
+   scope:string
 }

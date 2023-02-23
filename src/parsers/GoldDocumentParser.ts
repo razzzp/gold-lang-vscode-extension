@@ -3,7 +3,7 @@ import IGoldClassVariable, { GoldClassVariable } from "../entities/IGoldClassVar
 import IGoldMethod from "../entities/IGoldMethod";
 
 
-export default class GoldDocumentParser {
+export default class GoldDocumentParser{
    /**
     * parse
     */
@@ -95,35 +95,4 @@ export default class GoldDocumentParser {
       return null;
    }
 
-   private _parseProcedure(methodBody: string, index: number): IGoldMethod{
-      // TODO
-      return null;
-   }
-
-   private _parseFunction(methodBody: string, index: number): IGoldMethod{
-      // TODO
-      return null;
-   }
-
-   public parseMethods(text:string): IGoldMethod[] {
-      // TODO
-      const result = new Array<IGoldMethod>();
-      // generic regex to capture method blocks only
-      const methodBlockRegex = /(?:^|\n)(?!;) *\b(function|func|procedure|proc)\b[\s\S]*?\n(?!;)\b(endFunc|endProc|end)\b/ig
-      const matches = text.matchAll(methodBlockRegex);
-
-      for(let match of matches){
-         let methodToPush: IGoldMethod = null;
-         if (match[1] === 'function' || match[1] === 'func'){
-            methodToPush= this._parseFunction(match[0], match.index);
-         } else if (match[1] === 'procedure' || match[1] === 'proc'){
-            methodToPush= this._parseProcedure(match[0], match.index);
-         }
-         if(methodToPush){
-            result.push(methodToPush);
-         }
-      }
-
-      return result;
-   }
 }
