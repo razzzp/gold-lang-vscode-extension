@@ -21,7 +21,7 @@ test('test method parser, 1 procedure',()=>{
    expect(goldMethods[0].scope).toBe('');
    expect(goldMethods[0].returnType).toBe('');
    expect(goldMethods[0].modifiers).toBe('');
-   expect(goldMethods[0].pos).toBe(0);
+   expect(goldMethods[0].pos).toBe(10);
 });
 
 
@@ -39,7 +39,7 @@ test('test method parser, 1 function',()=>{
    expect(goldMethods[0].scope).toBe('');
    expect(goldMethods[0].returnType).toBe('FirstReturnType');
    expect(goldMethods[0].modifiers).toBe('');
-   expect(goldMethods[0].pos).toBe(0);
+   expect(goldMethods[0].pos).toBe(9);
 });
 
 test('test method parser, 1 function 1 proc',()=>{
@@ -60,7 +60,7 @@ test('test method parser, 1 function 1 proc',()=>{
    expect(goldMethods[0].scope).toBe('private');
    expect(goldMethods[0].returnType).toBe('FirstReturnType');
    expect(goldMethods[0].modifiers).toBe('final');
-   expect(goldMethods[0].pos).toBe(0);
+   expect(goldMethods[0].pos).toBe(9);
    //check proc
    expect(goldMethods[1].type).toBe('procedure');
    expect(goldMethods[1].name).toBe('FirstProcedure');
