@@ -1,7 +1,10 @@
 import IGoldMethod, { GoldMethod } from "../entities/IGoldMethod";
 
+export interface IGoldMethodParser {
+   parse(text: string): IGoldMethod[];
+}
 
-export default class GoldMethodParser {
+export default class GoldMethodParser implements IGoldMethodParser {
    public parse(text: string): IGoldMethod[]{
       return this._parseMethods(text);
    }
@@ -24,7 +27,9 @@ export default class GoldMethodParser {
       result.scope = match[4]?match[4]:'';
       result.returnType = '';
       result.modifiers = match[5] ? match[5]:'';
-      result.pos = index;
+      // typescript does not support indices yet
+      result.pos = index +  match[0].indexOf(match[2]);
+
       return result;
    }
 
@@ -38,8 +43,13 @@ export default class GoldMethodParser {
       // group 6 : override | final ?
       // group 7 : external DLL name ?
       const procedureRegex = /(?:^|\n)(?!;) *\b(func|function)\s+(\w+)(?:\s*(\([^)]*\)?))?(?:\s*\breturn\s+(\w+))(?:\s+\b(private|protected)\b)?(?:\s+\b(override|final)\b)?(?:\s+external\s*'(.*)')?/gi;
+
       const match = procedureRegex.exec(methodBody);
       if(!match) return null;
+
+      // const matches = [...methodBody.matchAll(procedureRegex)];
+      // if(!matches[0]) return null;
+      // const match = matches[0]
 
       const result = new GoldMethod();
       result.type = 'function';
@@ -48,7 +58,9 @@ export default class GoldMethodParser {
       result.scope = match[5] ? match[5]:'';
       result.returnType = match[4]?match[4]:'';
       result.modifiers = match[6] ? match[6]:'';
-      result.pos = index;
+      // typescript does not support indices yet
+      result.pos = index +  match[0].indexOf(match[2]);
+
       return result;
    }
 

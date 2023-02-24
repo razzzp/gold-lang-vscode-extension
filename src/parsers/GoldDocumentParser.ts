@@ -1,6 +1,7 @@
 import IGoldClass, { GoldClass } from "../entities/IGoldClass";
 import IGoldClassVariable, { GoldClassVariable } from "../entities/IGoldClassVariable";
-import IGoldMethod from "../entities/IGoldMethod";
+import GoldClassVariableParser from "./GoldClassVariableParser";
+import GoldMethodParser from "./GoldMethodParser";
 
 
 export default class GoldDocumentParser{
@@ -17,61 +18,13 @@ export default class GoldDocumentParser{
       result.pos= pos;
 
       // variables
-      result.variables = this.parseClassVariables(text);
+      const classVariableParser = new GoldClassVariableParser()
+      result.variables = classVariableParser.parse(text);
 
-      return result;
-   }
+      // methods
+      const methodParser = new GoldMethodParser();
+      result.methods = methodParser.parse(text);
 
-   public buildGoldVariableFromRegexMatch(regexMatch: RegExpMatchArray): IGoldClassVariable{
-      if (!regexMatch) return null;
-
-      const result = new GoldClassVariable();
-      result.pos = regexMatch.index;
-      result.isMemory = (regexMatch[1] === 'memory');
-      result.name = regexMatch[2];
-      result.refType = regexMatch[3] ? regexMatch[3] : '';
-      result.refModifiers = regexMatch[4] ? regexMatch[4] : '';
-      result.type = regexMatch[5];
-      result.inverseVar = regexMatch[7]?regexMatch[7]: '';
-      result.modifiers = regexMatch[8]? regexMatch[8] : '';
-      
-      return result
-   }
-
-   public parseClassVariables(text: string): IGoldClassVariable[] {
-      // regex to match class variable declaration
-      // group 1: memory ?
-      // group 2: variable name
-      // group 3: refTo/listOf ?
-      // group 4: ref modifiers ? (e.g. [P,A,T])
-      // group 5: var type
-      // group 6: inverse ?
-      // group 7: inverse var ?
-      // group 8: other modifiers ? (protected, override)
-      //  last non-capturing group is to prevent matching 
-      let variablesText = '';
-
-      const methodRegex = /^(?!;) *(function|func|procedure|proc)/mi;
-      const firstMethodMatch = methodRegex.exec(text);
-      // trim text to exclude functions, to prevent accidental matches to method params
-      if(firstMethodMatch) {
-         variablesText = text.substring(0,firstMethodMatch.index);
-      } else {
-         variablesText = text;
-      }
-
-      const classVariableDeclarationRegex = /^(?!;) *(?:(memory) +)?(?:(\w+) *)\: *(?:(refTo|listOf) *(\[[\w, ]*\])? *)?(?:(\w+))(?: +(inverse) +(\w+))?(?: +(?!inverse)([\w ]+))?/mgi
-      const matches = [...variablesText.matchAll(classVariableDeclarationRegex)];
-      
-      if(!matches) return null;
-
-      const result = new Array<IGoldClassVariable>();
-      for(let match of matches) {
-         const newGoldVar = this.buildGoldVariableFromRegexMatch(match);
-         if (newGoldVar){
-            result.push(newGoldVar);
-         }
-      }
       return result;
    }
 
@@ -94,5 +47,4 @@ export default class GoldDocumentParser{
       }
       return null;
    }
-
 }

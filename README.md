@@ -30,3 +30,6 @@ To package:
 
 To install:
 1. Run the command 'code --install-extension gold-lang-[latest version].vsix'
+
+## Testing
+Run unit tests by running the command 'npm test'

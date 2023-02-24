@@ -1,0 +1,1 @@
+type RegExpMatchArrayWithIndices = RegExpMatchArray & { indices: Array<[number, number]> };
