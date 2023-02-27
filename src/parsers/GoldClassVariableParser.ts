@@ -23,7 +23,8 @@ export default class GoldClassVariableParser implements IGoldClassVariableParser
       //  last non-capturing group is to prevent matching 
      
       // const classVariableDeclarationRegex = /^(?!;) *(?:(memory) +)?(?:(\w+) *)\: *(?:(refTo|listOf) *(\[[\w, ]*\])? *)?(?:(\w+))(?: +(inverse) +(\w+))?(?: +(?!inverse)([\w ]+))?/mgi
-      const classVariableDeclarationRegex = /^(?:\[[^\]]*?\][\s\S]*?)?(?:\n|^)(?!;) *(?:(memory) +)?(?:(\w+) *)\: *(?:(refTo|listOf) *(\[[\w, ]*\])? *)?(?:(\w+))(?: +(inverse) +(\w+))?(?: +(?!inverse)([\w ]+))?/gimd;
+      // TODO Find a way to parse model syntax, for now class variables that are indented will NOT be matched
+      const classVariableDeclarationRegex = /^(?!;) {0,3}(?:(memory) +)?(?:(\w+) *)\: *(?:(refTo|listOf) *(\[[\w, ]*\])? *)?(?:(\w+))(?: +(inverse) +(\w+))?(?: +(?!inverse)([\w ]+))?/gimd;
       let variablesText = this._getClassVariablesText(text);
       const matches = [...variablesText.matchAll(classVariableDeclarationRegex)];
       
