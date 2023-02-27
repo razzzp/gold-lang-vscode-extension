@@ -61,7 +61,7 @@
 		"function-declaration-end": {
 			"name": "meta.function.end",
 			"comment": "",
-			"match": "\\b(endFunc)\\b",
+			"match": "\\b(endFunc|endfunc)\\b",
 			"captures": {
 				"1": { "name": "storage.type.function"}
 			}
@@ -89,7 +89,7 @@
 		"procedure-declaration-end": {
 			"name": "meta.procedure.end",
 			"comment": "",
-			"match": "\\b(endProc)\\b",
+			"match": "\\b(endProc|endproc)\\b",
 			"captures": {
 				"1": { "name": "storage.type.procedure"}
 			}
@@ -267,15 +267,21 @@
 		"storage": {
 			"patterns": [
 				{ "include": "#storage-class"},
+				{ "include": "#storage-module"},
 				{ "include": "#storage-function"},
 				{ "include": "#storage-procedure"},
 				{ "include": "#storage-modifier-all"},
-				{ "include": "#storage-type"}
+				{ "include": "#storage-type"},
+				{ "include": "#storage-record"}
 			]
 		},
 		"storage-class": {
 			"name": "storage.type",
 			"match": "\\bclass\\b"
+		},
+		"storage-module": {
+			"name": "storage.type",
+			"match": "\\bmodule\\b"
 		},
 		"storage-function": {
 			"name": "storage.type",
@@ -288,6 +294,10 @@
 		"storage-type": {
 			"name": "storage.type",
 			"match": "\\btype\\b"
+		},
+		"storage-record": {
+			"name": "storage.type",
+			"match": "\\b(record|endrecord|endRecord)\\b"
 		},
 		"storage-modifier-all": {
 			"patterns": [
@@ -365,6 +375,7 @@
 			"patterns": [
 				{"include": "#keyword-control"},
 				{"include": "#keyword-operator"},
+				{"include": "#keyword-vars"},
 				{"include": "#storage"}
 			]
 		},
@@ -459,6 +470,21 @@
 			"name": "keyword.other.operator.other",
 			"match": "\\b(uses|inverse)\\b"
 		},
+		"keyword-vars":{
+			"patterns": [
+				{"include": "#keyword-vars-result"},
+				{"include": "#keyword-vars-self"}
+			]
+		},
+		"keyword-vars-result":{
+			"name": "keyword.other.vars.result",
+			"match": "\\b(_result|_Result)\\b"
+		},
+		"keyword-vars-self":{
+			"name": "keyword.other.vars.result",
+			"match": "\\b(self)\\b"
+		},
+
 
 
 
