@@ -1,5 +1,5 @@
 import { CancellationToken, DocumentSymbol, DocumentSymbolProvider, ProviderResult, Range, SymbolInformation, SymbolKind, TextDocument } from "vscode";
-import IGoldClass from "../entities/IGoldClass";
+import IGoldCU from "../entities/IGoldCU";
 import IGoldClassVariable from "../entities/IGoldClassVariable";
 import IGoldEntity from "../entities/IGoldEntity";
 import IGoldMethod from "../entities/IGoldMethod";
@@ -28,7 +28,7 @@ export default class GoldDocumentSymbolProvider implements DocumentSymbolProvide
    } 
 
    
-   private _generateGoldClassSymbol(goldClass : IGoldClass, document : TextDocument) :DocumentSymbol{
+   private _generateGoldClassSymbol(goldClass : IGoldCU, document : TextDocument) :DocumentSymbol{
       const range = this._getRangeForGoldEntity(document, goldClass)
       const goldClassSymbol = new DocumentSymbol(
          goldClass.name,
