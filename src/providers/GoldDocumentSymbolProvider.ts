@@ -65,7 +65,7 @@ export default class GoldDocumentSymbolProvider implements DocumentSymbolProvide
          const range = this._getRangeForGoldEntity(document, method)
          result.push(new DocumentSymbol(
             method.name,
-            method.type,
+            method.returnType,
             SymbolKind.Method,
             range,
             range
