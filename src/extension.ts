@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import GoldDocumentSymbolProvider from './providers/GoldDocumentSymbolProvider';
+import GoldWorkspaceSymbolProvider from './providers/GoldWorkspaceSymbolProvider';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -11,10 +12,11 @@ export function activate(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "Gold Lang" is now active!');
 
-	let disposable = vscode.languages.registerDocumentSymbolProvider('gold',
-      new GoldDocumentSymbolProvider());
-
-	context.subscriptions.push(disposable);
+	let docSymProviderDisp = vscode.languages.registerDocumentSymbolProvider('gold',new GoldDocumentSymbolProvider());
+	let wsSymProviderDisp = vscode.languages.registerWorkspaceSymbolProvider(new GoldWorkspaceSymbolProvider());
+	
+	context.subscriptions.push(docSymProviderDisp);
+	context.subscriptions.push(wsSymProviderDisp);
 }
 
 // This method is called when your extension is deactivated

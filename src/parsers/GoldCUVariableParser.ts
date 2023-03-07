@@ -1,10 +1,21 @@
 import IGoldClassVariable, { GoldClassVariable } from "../entities/IGoldClassVariable";
+import { getRangeForEntity } from "../utils/utils";
 
-export interface IGoldClassVariableParser {
+export interface IGoldCUVariableParser {
    parse(text: string): IGoldClassVariable[];
+   parseWithLocation(text: string, uri:string): IGoldClassVariable[];
 }
 
-export default class GoldClassVariableParser implements IGoldClassVariableParser {
+export default class GoldCUVariableParser implements IGoldCUVariableParser {
+   parseWithLocation(text: string, uri: string): IGoldClassVariable[] {
+      const result = this.parse(text);
+      if(result) {
+         for(let goldEntity of result) {
+            goldEntity.path = uri;
+         }
+      }
+      return result;
+   }
    public parse(text: string): IGoldClassVariable[]{
       return this._parseClassVariables(text);
    }
@@ -55,6 +66,7 @@ export default class GoldClassVariableParser implements IGoldClassVariableParser
       result.modifiers = regexMatch[8]? regexMatch[8] : '';
       // indices not supported in typescript yet
       result.pos = regexMatch.index + regexMatch[0].indexOf(regexMatch[2]);
+      result.range = getRangeForEntity(result, result.pos);
       
       return result
    }

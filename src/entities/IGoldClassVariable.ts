@@ -1,3 +1,4 @@
+import { IRange } from "./IGoldEntity";
 import IGoldVariable from "./IGoldVariable";
 
 export default interface IGoldClassVariable extends IGoldVariable{
@@ -17,6 +18,8 @@ export class GoldClassVariable implements IGoldClassVariable{
    refModifiers: string;
    inverseVar: string;
    modifiers: string;
+   path:string;
+   range: IRange;
 
    constructor() {
    }

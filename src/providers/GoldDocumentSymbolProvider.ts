@@ -12,7 +12,7 @@ export default class GoldDocumentSymbolProvider implements DocumentSymbolProvide
       
       // try to parse
       const goldDocumentParser = new GoldDocumentParser();
-      const goldClass = goldDocumentParser.parse(document.getText());
+      const goldClass = goldDocumentParser.parse(document.getText(), document.uri.fsPath);
       if (!goldClass) return null;
 
       // convert entities to vscode document symbols
@@ -76,8 +76,8 @@ export default class GoldDocumentSymbolProvider implements DocumentSymbolProvide
 
    private _getRangeForGoldEntity(document: TextDocument, goldEntity: IGoldEntity): Range{
       return new Range(
-         document.positionAt(goldEntity.pos),
-         document.positionAt(goldEntity.pos+goldEntity.name.length)
+         document.positionAt(goldEntity.range.startPos),
+         document.positionAt(goldEntity.range.endPos)
       )
    }
 

@@ -1,14 +1,22 @@
 import IGoldCU, { GoldCU } from "../entities/IGoldCU";
 import IGoldEntity from "../entities/IGoldEntity";
+import { getRangeForEntity } from "../utils/utils";
 
 interface IGoldCUParser {
    parse(text: string) : IGoldEntity;
+   parseWithLocation(text: string, uri:string): IGoldEntity;
 }
 
 /**
  * CU represents a module or class
  */
 export default class GoldCUParser implements IGoldCUParser{
+   parseWithLocation(text: string, uri: string): IGoldCU {
+      const result = this.parse(text);
+      if(result) result.path = uri;
+      return result;
+   }
+
    parse(text: string): IGoldCU {
       let result = this._parseClassInfo(text);
       if(!result) result = this._parseModuleInfo(text);
@@ -32,6 +40,7 @@ export default class GoldCUParser implements IGoldCUParser{
          result.type = 'class';
          result.parentClass = matches[0][2];
          result.pos = matches[0].index;
+         result.range = getRangeForEntity(result, result.pos);
          return result;
       }
       return null;
@@ -54,9 +63,12 @@ export default class GoldCUParser implements IGoldCUParser{
          result.type = 'module';
          result.parentClass = '';
          result.pos = matches[0].index;
+         result.range = getRangeForEntity(result, result.pos);
          return result;
       }
       return null;
    }
+
+   
 
 }

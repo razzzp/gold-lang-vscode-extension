@@ -1,6 +1,6 @@
 import IGoldClassVariable from "./IGoldClassVariable";
 import { IGoldConstant } from "./IGoldConstants";
-import IGoldEntity from "./IGoldEntity";
+import IGoldEntity, { IRange } from "./IGoldEntity";
 import IGoldMethod from "./IGoldMethod";
 
 export default interface IGoldCU extends IGoldEntity{
@@ -23,4 +23,6 @@ export class GoldCU implements IGoldCU{
    uses: IGoldCU[];
    constants: IGoldConstant[];
    name: string;
+   range: IRange;
+   path:string;
 }

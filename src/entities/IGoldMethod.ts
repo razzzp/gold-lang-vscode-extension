@@ -1,4 +1,4 @@
-import IGoldEntity from "./IGoldEntity";
+import IGoldEntity, { IRange } from "./IGoldEntity";
 
 export default interface IGoldMethod extends IGoldEntity {
    get type(): string;
@@ -15,5 +15,7 @@ export class GoldMethod implements IGoldMethod {
    modifiers: string;
    paramaters:string;
    returnType:string;
-   scope:string
+   scope:string;
+   range: IRange;
+   path:string;
 }

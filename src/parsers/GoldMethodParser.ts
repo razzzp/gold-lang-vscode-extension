@@ -1,10 +1,22 @@
 import IGoldMethod, { GoldMethod } from "../entities/IGoldMethod";
+import { getRangeForEntity } from "../utils/utils";
 
 export interface IGoldMethodParser {
    parse(text: string): IGoldMethod[];
+   parseWithLocation(text: string, uri:string): IGoldMethod[];
 }
 
 export default class GoldMethodParser implements IGoldMethodParser {
+   parseWithLocation(text: string, uri: string): IGoldMethod[] {
+      const result = this.parse(text);
+      if(result) {
+         for(let goldEntity of result) {
+            goldEntity.path = uri;
+         }
+      }
+      return result;
+   }
+   
    public parse(text: string): IGoldMethod[]{
       return this._parseMethods(text);
    }
@@ -29,6 +41,7 @@ export default class GoldMethodParser implements IGoldMethodParser {
       result.modifiers = match[5] ? match[5]:'';
       // typescript does not support indices yet
       result.pos = index +  match[0].indexOf(match[2]);
+      result.range = getRangeForEntity(result, result.pos);
 
       return result;
    }
@@ -60,6 +73,7 @@ export default class GoldMethodParser implements IGoldMethodParser {
       result.modifiers = match[6] ? match[6]:'';
       // typescript does not support indices yet
       result.pos = index +  match[0].indexOf(match[2]);
+      result.range = getRangeForEntity(result, result.pos);
 
       return result;
    }

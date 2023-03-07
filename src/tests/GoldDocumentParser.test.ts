@@ -13,7 +13,7 @@ beforeEach(initializeParser);
 test('test parse class members amount', ()=>{
    // check only amount of variables, methods etc
    const testInput = fs.readFileSync('./src/tests/inputs/aDocumentParserTest.god', 'utf8');
-   const goldClass = parser.parse(testInput);
+   const goldClass = parser.parse(testInput,'./src/tests/inputs/aDocumentParserTest.god');
 
    expect(goldClass.methods.length).toEqual(2);
    expect(goldClass.variables.length).toEqual(2);

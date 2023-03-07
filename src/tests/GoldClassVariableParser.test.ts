@@ -1,9 +1,9 @@
-import GoldClassVariableParser from "../parsers/GoldClassVariableParser";
+import GoldCUVariableParser from "../parsers/GoldCUVariableParser";
 
 
-let parser: GoldClassVariableParser;
+let parser: GoldCUVariableParser;
 function initializeParser(){
-   parser = new GoldClassVariableParser();
+   parser = new GoldCUVariableParser();
 } 
 
 beforeEach(initializeParser);

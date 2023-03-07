@@ -1,13 +1,15 @@
-import IGoldEntity from "./IGoldEntity";
+import IGoldEntity, { IRange } from "./IGoldEntity";
 
 export default interface IGoldVariable extends IGoldEntity{
    get type(): string;
 }
 
 export class GoldVariable implements IGoldVariable{
-   public pos: number
-   public name: string;
-   public type: string
+   pos: number
+   name: string;
+   type: string;
+   range: IRange;
+   path:string;
 
    constructor() {
    }
