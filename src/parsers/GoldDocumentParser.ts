@@ -3,8 +3,11 @@ import GoldCUVariableParser from "./GoldCUVariableParser";
 import GoldMethodParser from "./GoldMethodParser";
 import GoldCUParser from "./GoldCUParser";
 
+export interface IGoldDocumentParser {
+   parse(text: string, uri: string) :  IGoldCU;
+}
 
-export default class GoldDocumentParser{
+export default class GoldDocumentParser implements IGoldDocumentParser{
 
    /**
     * parse
