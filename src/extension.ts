@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import GoldProjectIndexer from './GoldProjectIndexer';
 import GoldDocumentSymbolProvider from './providers/GoldDocumentSymbolProvider';
 import GoldWorkspaceSymbolProvider from './providers/GoldWorkspaceSymbolProvider';
 
@@ -13,10 +14,15 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "Gold Lang" is now active!');
 
 	let docSymProviderDisp = vscode.languages.registerDocumentSymbolProvider('gold',new GoldDocumentSymbolProvider());
-	let wsSymProviderDisp = vscode.languages.registerWorkspaceSymbolProvider(new GoldWorkspaceSymbolProvider());
-	
 	context.subscriptions.push(docSymProviderDisp);
-	context.subscriptions.push(wsSymProviderDisp);
+
+	if(vscode.workspace.workspaceFolders) {
+		const wsPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+		const indexer = new GoldProjectIndexer();
+		indexer.indexFolder(wsPath);
+		let wsSymProviderDisp = vscode.languages.registerWorkspaceSymbolProvider(new GoldWorkspaceSymbolProvider(indexer));
+		context.subscriptions.push(wsSymProviderDisp);
+	}
 }
 
 // This method is called when your extension is deactivated

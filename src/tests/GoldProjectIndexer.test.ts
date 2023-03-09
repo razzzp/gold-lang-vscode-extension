@@ -1,4 +1,4 @@
-import GoldProjectIndexer from "../parsers/GoldProjectIndexer";
+import GoldProjectIndexer from "../GoldProjectIndexer";
 
 
 let indexer: GoldProjectIndexer;
