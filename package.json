@@ -2,7 +2,7 @@
   "name": "gold-lang",
   "displayName": "Gold Lang",
   "description": "VSCode extension for Gold (eWAM)",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.54.0"
   },
@@ -41,7 +41,8 @@
   },
   "dependencies": {
     "@types/vscode": "^1.75.1",
-    "fuzzysort": "^2.0.4"
+    "fuzzysort": "^2.0.4",
+    "graceful-fs": "^4.2.10"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",

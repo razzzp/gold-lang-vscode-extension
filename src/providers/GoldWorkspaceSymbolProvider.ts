@@ -13,13 +13,33 @@ export default class GoldWorkspaceSymbolProvider implements WorkspaceSymbolProvi
       this._indexer = goldIndexer;
    }
 
-   provideWorkspaceSymbols(query: string, token: CancellationToken): ProviderResult<SymbolInformation[]> {
-      // TODO
-      return null;
-      
+   async provideWorkspaceSymbols(query: string, token: CancellationToken): Promise<SymbolInformation[]> {
+      const queryResult = await this._indexer.queryEntityByName(query);
+      return queryResult.map((entity)=>{
+         return new SymbolInformation(
+            entity.name,
+            vscode.SymbolKind.Field,
+            '',
+            new vscode.Location(vscode.Uri.file(entity.path),undefined)
+         );
+      });
    }
-   resolveWorkspaceSymbol?(symbol: SymbolInformation, token: CancellationToken): ProviderResult<SymbolInformation> {
+
+   private _getSymbolKind(goldType: string): vscode.SymbolKind{
       // TODO
-      throw new Error("Method not implemented.");
+      return vscode.SymbolKind.Field;
+   }
+
+   async resolveWorkspaceSymbol?(symbol: SymbolInformation, token: CancellationToken): Promise<SymbolInformation> {
+      const textDoc = await vscode.workspace.openTextDocument(symbol.location.uri);
+      if(!textDoc) return undefined;
+
+      const entity = this._indexer.searchExactCaseInsensitive(symbol.name);
+      if(!entity) return undefined;
+
+      symbol.location.range = new vscode.Range(
+         textDoc.positionAt(entity.range.startPos),
+         textDoc.positionAt(entity.range.endPos));
+      return symbol;
    }
 }

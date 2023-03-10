@@ -8,4 +8,5 @@ export default interface IGoldEntity{
    get path(): string;
    set path(uri:string);
    get range(): IRange;
+   get type(): string;
 }

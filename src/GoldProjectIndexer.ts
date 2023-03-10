@@ -1,4 +1,4 @@
-import * as fs from 'fs/promises'
+import * as fs from 'graceful-fs'
 import * as path from 'path'
 import GoldDocumentParser, { IGoldDocumentParser } from "./parsers/GoldDocumentParser";
 import IGoldCU from "./entities/IGoldCU";
@@ -38,29 +38,53 @@ export default class GoldProjectIndexer {
     */
    public async indexProject(fileFinder: IFileFinder, parser: IGoldDocumentParser) :Promise<void> {
       const filePaths = await fileFinder.findFiles('**/*.god');
+
+      // debug
+      // const found = filePaths.find((val)=>{
+      //    return val.toLowerCase().includes('aocsmobileiccardimage.god');
+      // });
+      // if(found) console.log(`Found! ${found}`);
+
+      // TODO batch and await the parsing to prevent 'EMFILE: too many open files'
       await Promise.allSettled(filePaths.map((val,i)=>{
          return this._parseDocument(val, parser);
       }));
-      // flatten all entities
-      for(let cu of this._cus){
-         this._entities.push(cu);
-         this._entities.push(...cu.variables);
-         this._entities.push(...cu.methods);
-      }  
    }
 
    private async _parseDocument(filePath: string, parser: IGoldDocumentParser) : Promise<void>{
+      
+
       // read file
-      const data = await fs.readFile(filePath, {encoding:'utf-8'});
+      const data = await this._readFilePromise(filePath);
    
+      // debug
+      if(filePath.toLowerCase().includes('aocsmobileiccardimage.god')) {
+         // for some reason, fails to read this file. too many open files?
+         console.log('found aocsmobileiccardimage');
+      }
+
       // parse
       const newGoldEntity = parser.parse(data, filePath);
       if(newGoldEntity) {
          this._cus.push(newGoldEntity);
+         //flatten
+         this._entities.push(newGoldEntity);
+         this._entities.push(...newGoldEntity.variables);
+         this._entities.push(...newGoldEntity.methods);
       } else {
          console.log(`failed to parse: ${filePath}`);
       }
       return;
+   }
+
+   private async _readFilePromise(filePath: string): Promise<string> {
+
+      return new Promise<string>((resolve,reject)=>{
+         fs.readFile(filePath, {encoding:'utf-8'}, (err, data)=>{
+            if(err) reject(err);
+            resolve(data);
+         });
+      });
    }
 
    public async queryEntityByName(query: string, ): Promise<IGoldEntity[]> {
@@ -68,5 +92,9 @@ export default class GoldProjectIndexer {
       return sortResults.map((val, idx) => {
          return val.obj;
       });
+   }
+
+   public searchExactCaseInsensitive(query:string): IGoldEntity {
+      return this._entities.find((val)=> val.name.toLowerCase()===query);
    }
 }

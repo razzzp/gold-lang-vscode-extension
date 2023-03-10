@@ -22,3 +22,16 @@ test('test indexer CUs', async ()=>{
    const entities = indexer.getEntities()
    expect(entities.length).toBe(15);
 });
+
+// test('test index entire cps repo wow', async ()=>{
+//    const testInput = 'c:/Users/muhampra/dev/projects/cps-dev'
+//    const fileFinder = new MyFileFinder(testInput);
+//    const parser = new GoldDocumentParser();
+//    await indexer.indexProject(fileFinder, parser);
+
+//    const cus = indexer.getCUs();
+//    expect(cus.length).toBe(8170);
+
+//    const entities = indexer.getEntities()
+//    expect(entities.length).toBe(99451);
+// }, 60000);
