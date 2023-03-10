@@ -40,7 +40,8 @@
     }
   },
   "dependencies": {
-    "@types/vscode": "^1.75.1"
+    "@types/vscode": "^1.75.1",
+    "fuzzysort": "^2.0.4"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",
@@ -48,7 +49,7 @@
     "ts-jest": "^29.0.5"
   },
   "scripts": {
-    "test" : "jest",
+    "test": "jest",
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./"

@@ -4,16 +4,16 @@ import { getRangeForEntity } from "../utils/utils";
 
 interface IGoldCUParser {
    parse(text: string) : IGoldEntity;
-   parseWithLocation(text: string, uri:string): IGoldEntity;
+   parseWithLocation(text: string, path:string): IGoldEntity;
 }
 
 /**
  * CU represents a module or class
  */
 export default class GoldCUParser implements IGoldCUParser{
-   parseWithLocation(text: string, uri: string): IGoldCU {
+   parseWithLocation(text: string, path: string): IGoldCU {
       const result = this.parse(text);
-      if(result) result.path = uri;
+      if(result) result.path = path;
       return result;
    }
 

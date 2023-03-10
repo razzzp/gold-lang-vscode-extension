@@ -3,15 +3,15 @@ import { getRangeForEntity } from "../utils/utils";
 
 export interface IGoldCUVariableParser {
    parse(text: string): IGoldClassVariable[];
-   parseWithLocation(text: string, uri:string): IGoldClassVariable[];
+   parseWithLocation(text: string, path:string): IGoldClassVariable[];
 }
 
 export default class GoldCUVariableParser implements IGoldCUVariableParser {
-   parseWithLocation(text: string, uri: string): IGoldClassVariable[] {
+   parseWithLocation(text: string, path: string): IGoldClassVariable[] {
       const result = this.parse(text);
       if(result) {
          for(let goldEntity of result) {
-            goldEntity.path = uri;
+            goldEntity.path = path;
          }
       }
       return result;

@@ -1,5 +1,5 @@
 import { CancellationToken, ProviderResult, SymbolInformation, WorkspaceSymbolProvider } from "vscode";
-import GoldProjectIndexer, { getGoldProjectIndexerForProject } from "../GoldProjectIndexer";
+import GoldProjectIndexer from "../GoldProjectIndexer";
 import * as vscode from "vscode";
 
 
