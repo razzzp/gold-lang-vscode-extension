@@ -10,7 +10,7 @@
     "Programming Languages",
     "Themes"
   ],
-  "main": "./out/extension.js",
+  "main": "./client/out/extension.js",
   "activationEvents": [],
   "contributes": {
     "languages": [
@@ -37,12 +37,18 @@
     "configurationDefaults": {
       "editor.indentSize": 3,
       "editor.tabSize": 3
-    }
+    },
+    "configuration":[
+      {
+        "title": "",
+        "properties": {}
+      }
+    ]
   },
   "scripts": {
     "test": "jest",
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
+    "compile": "tsc -p ./client/",
+    "watch": "tsc -watch -p ./client/"
   }
 }
