@@ -1,0 +1,27 @@
+{
+  "name": "gold-lang-vscode-client",
+  "version": "0.0.1",
+  "description": "vscode client for gold lang lsp server ",
+  "main": "./out/extension.js",
+  "scripts": {
+    "test": "jest",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "author": "Muhammad Razif Pramuda",
+  "license": "ISC",
+  "engines": {
+		"vscode": "^1.75.0"
+	},
+	"dependencies": {
+		"vscode-languageclient": "^8.1.0",
+    "jest": "^29.4.3",
+    "ts-jest": "^29.0.5"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.75.1",
+		"@vscode/test-electron": "^2.2.3",
+    "@types/jest": "^29.4.0"
+  }
+}
