@@ -27,7 +27,7 @@ export function activate(context: ExtensionContext) {
 	// Options to control the language client
 	const clientOptions: LanguageClientOptions = {
 		// Register the server for plain text documents
-		documentSelector: [{ scheme: 'file', pattern: '**.god'}],
+		documentSelector: [{ scheme: 'file', pattern: '**/*.god'}],
 	};
 
 	// Create the language client and start the client.
@@ -35,7 +35,7 @@ export function activate(context: ExtensionContext) {
 		'languageServerExample',
 		'Language Server Example',
 		serverOptions,
-		clientOptions
+		clientOptions,
 	);
 
 	// Start the client. This will also launch the server

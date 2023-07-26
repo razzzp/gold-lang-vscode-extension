@@ -13,6 +13,23 @@
   "main": "./client/out/extension.js",
   "activationEvents": [],
   "contributes": {
+    "configuration":{
+      "type": "",
+      "title": "gold config",
+      "properties": {
+        "languageServerExample.trace.server": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"off",
+						"messages",
+						"verbose"
+					],
+					"default": "verbose",
+					"description": "Traces the communication between VS Code and the language server."
+				}
+      }
+    },
     "languages": [
       {
         "id": "gold",
@@ -37,13 +54,7 @@
     "configurationDefaults": {
       "editor.indentSize": 3,
       "editor.tabSize": 3
-    },
-    "configuration":[
-      {
-        "title": "",
-        "properties": {}
-      }
-    ]
+    }
   },
   "scripts": {
     "test": "jest",
