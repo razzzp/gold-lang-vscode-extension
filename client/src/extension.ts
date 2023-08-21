@@ -12,9 +12,18 @@ import {
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-	// The server is implemented in node
+	// The server is implemented in rust
+	// check platform and get correct filename
+	let exec_name = '';
+	if (process.platform === 'win32'){
+		exec_name = 'gold-lang-lsp.exe';
+	} else if (process.platform === 'linux'){
+		exec_name = 'gold-lang-lsp';
+	} else {
+		throw new Error(`${process.platform} platform not supported`);
+	}
 	const serverModule = context.asAbsolutePath(
-		path.join('server', 'target', 'debug', 'gold-lang-lsp.exe')
+		path.join('server', 'target', 'debug', exec_name)
 	);
 
 	// If the extension is launched in debug mode then the debug server options are used
