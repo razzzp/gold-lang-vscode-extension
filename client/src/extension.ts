@@ -14,14 +14,14 @@ let client: LanguageClient;
 export function activate(context: ExtensionContext) {
 	// The server is implemented in node
 	const serverModule = context.asAbsolutePath(
-		path.join('server', 'target', 'debug', 'gold-lang-lsp')
+		path.join('server', 'target', 'debug', 'gold-lang-lsp.exe')
 	);
 
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
 	const serverOptions: ServerOptions = {
-		run: { command: serverModule, transport: {kind: TransportKind.socket, port: 5001}},
-		debug: { command: serverModule, transport: {kind: TransportKind.socket, port: 5001}}
+		run: { command: serverModule, transport: TransportKind.stdio},
+		debug: { command: serverModule, transport: TransportKind.stdio}
 	};
 
 	// Options to control the language client
