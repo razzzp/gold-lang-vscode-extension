@@ -1,0 +1,3 @@
+[submodule "server/gold-lang-lsp"]
+	path = server/gold-lang-lsp
+	url = https://github.com/razzzp/gold-lang-lsp.git

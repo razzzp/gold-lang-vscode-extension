@@ -23,7 +23,7 @@ export function activate(context: ExtensionContext) {
 		throw new Error(`${process.platform} platform not supported`);
 	}
 	const serverModule = context.asAbsolutePath(
-		path.join('server', 'target', 'debug', exec_name)
+		path.join('server', 'gold-lang-lsp', 'target', 'debug', exec_name)
 	);
 
 	// If the extension is launched in debug mode then the debug server options are used
