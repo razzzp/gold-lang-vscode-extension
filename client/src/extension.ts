@@ -10,7 +10,7 @@ import {
 } from 'vscode-languageclient/node';
 
 let client: LanguageClient;
-
+declare let v8debug:any;
 export function activate(context: ExtensionContext) {
 	// The server is implemented in rust
 	// check platform and get correct filename
@@ -22,9 +22,18 @@ export function activate(context: ExtensionContext) {
 	} else {
 		throw new Error(`${process.platform} platform not supported`);
 	}
-	const serverModule = context.asAbsolutePath(
-		path.join('server', 'gold-lang-lsp', 'target', 'debug', exec_name)
-	);
+	let debug = typeof v8debug === 'object';
+	let serverModule: string;
+	if (debug){
+		const serverModule = context.asAbsolutePath(
+			path.join('server', 'gold-lang-lsp', 'target', 'debug', exec_name)
+		);
+	} else {
+		const serverModule = context.asAbsolutePath(
+			path.join('server', 'gold-lang-lsp', 'target', 'release', exec_name)
+		);
+	}
+	
 
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
