@@ -13,9 +13,6 @@
                 "--extensionDevelopmentPath=${workspaceFolder}",
                 "--disable-extensions"
             ],
-            "env": {
-                "DEBUG": "True"
-            },
             "outFiles": [
 				"${workspaceFolder}/client/out/**/*.js"
 			],

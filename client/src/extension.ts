@@ -5,6 +5,7 @@ import { workspace, ExtensionContext } from 'vscode';
 import {
 	LanguageClient,
 	LanguageClientOptions,
+	OptionalVersionedTextDocumentIdentifier,
 	ServerOptions,
 	TransportKind
 } from 'vscode-languageclient/node';
@@ -22,14 +23,16 @@ export function activate(context: ExtensionContext) {
 	} else {
 		throw new Error(`${process.platform} platform not supported`);
 	}
-	let debug = typeof v8debug === 'object';
+	
+	// cannot set debug flag from vscode launch.json -_-
+	let debug = process.env['DEBUG'] === 'true';
 	let serverModule: string;
 	if (debug){
-		const serverModule = context.asAbsolutePath(
+		serverModule = context.asAbsolutePath(
 			path.join('server', 'gold-lang-lsp', 'target', 'debug', exec_name)
 		);
 	} else {
-		const serverModule = context.asAbsolutePath(
+		serverModule = context.asAbsolutePath(
 			path.join('server', 'gold-lang-lsp', 'target', 'release', exec_name)
 		);
 	}
