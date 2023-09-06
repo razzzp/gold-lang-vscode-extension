@@ -16,10 +16,10 @@ for the docs. Matches are done using Regex.
 
 The main grammar file for this extension can be found in ./syntaxes/gold.tmLanguage.json
 
-## TODO
-2. Outline tab (Need to study how this is implemented)
-3. AutoComplete (Using API or Language server?)
-4. Fix syntax highlighting for 'model' statements
+### Language Server
+Starting from v0.1.0 the extension uses a language server: gold-lang-lsp, built using rust. Go to the corresponding repo to see what has been implemented.
+
+LSP is under the server folder.
 
 ## Installation
 The extension has been pre-packaged(but not published) and can be found in /vsix
@@ -30,6 +30,3 @@ To package:
 
 To install:
 1. Run the command 'code --install-extension gold-lang-[latest version].vsix'
-
-## Testing
-Run unit tests by running the command 'npm test'
