@@ -2,7 +2,7 @@
   "name": "gold-lang",
   "displayName": "Gold Lang",
   "description": "VSCode extension for Gold (eWAM)",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.54.0"
   },
@@ -10,24 +10,24 @@
     "Programming Languages",
     "Themes"
   ],
-  "main": "./client/out/extension.js",
+  "main": "./client/dist/extension.js",
   "activationEvents": [],
   "contributes": {
-    "configuration":{
+    "configuration": {
       "type": "",
       "title": "gold config",
       "properties": {
         "languageServerExample.trace.server": {
-					"scope": "window",
-					"type": "string",
-					"enum": [
-						"off",
-						"messages",
-						"verbose"
-					],
-					"default": "verbose",
-					"description": "Traces the communication between VS Code and the language server."
-				}
+          "scope": "window",
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "verbose",
+          "description": "Traces the communication between VS Code and the language server."
+        }
       }
     },
     "languages": [
@@ -57,9 +57,11 @@
     }
   },
   "scripts": {
-    "test": "jest",
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./client/",
-    "watch": "tsc -watch -p ./client/"
+    "vscode:prepublish": "cd client && npm run vscode:prepublish",
+    "webpack": "cd client && npm run webpack",
+    "webpack-dev": "cd client && npm run webpack-dev",
+    "package": "cd client && npm run package",
+    "watch": "cd client && npm run watch",
+    "test-compile": "cd client && npm run test-compile"
   }
 }

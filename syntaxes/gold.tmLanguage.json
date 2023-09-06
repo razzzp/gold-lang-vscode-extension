@@ -40,18 +40,49 @@
 				"1": {"patterns": [{"include": "#method-ident"}]}
 			}
 		},
-		"method-decl":{
+		"method-decl-no-param":{
 			"match": "(?i)(proc|procedure|func|function)\\s+(\\w+)",
 			"captures": {
 				"1": {"name": "storage.type"},
 				"2": {"patterns": [{"include": "#method-ident"}]}
 			}
 		},
+		"method-decl-param":{
+			"begin": "(?i)(proc|procedure|func|function)\\s+(\\w+)\\s*\\(",
+			"end": "\\)",
+			"beginCaptures": {
+				"1": {"name": "storage.type"},
+				"2": {"patterns": [{"include": "#method-ident"}]}
+			},
+			"patterns": [
+				{"include": "#keyword"},
+				{"include": "#var-decl"},
+				{"include": "#param-type-annotation"},
+				{"include": "#identifier"}
+			]
+		},
+		"method-decl":{
+			"patterns": [
+				{"include": "#method-decl-param"},
+				{"include": "#method-decl-no-param"}
+			]
+		},
+		
 		"var-decl":{
 			"name": "variable",
 			"match": "(?i)(\\w+)\\s*(?=:)",
 			"captures": {
 				"1": {"patterns": [{"include": "#identifier"}]}
+			}
+		},
+		"param-type-annotation":{
+			"match": "(?i):\\s*([^;,\\(\\)]+)",
+			"captures": {
+				"1": {
+					"patterns": [
+						{"include": "#type-basic"}
+					]
+				}
 			}
 		},
 		"type-annotation":{

@@ -1,4 +1,14 @@
 .vscode/**
+**/.vscode
 .vscode-test/**
 .gitignore
+**/*.ts
+**/tsconfig.json
+references
+server/gold-lang-lsp/src
+server/gold-lang-lsp/test
+server/gold-lang-lsp/target/debug
+server/gold-lang-lsp/target/release/build
+server/gold-lang-lsp/target/release/deps
 vsc-extension-quickstart.md
+**/node_modules

@@ -5,12 +5,10 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "compile",
-			"problemMatcher": ["$tsc-watch"],
-			"isBackground": true,
-			"presentation": {
-				"reveal": "never"
-			},
+			"script": "webpack",
+			"problemMatcher": [],
+			"label": "npm: webpack",
+			"detail": "cd client && npm run webpack",
 			"group": {
 				"kind": "build",
 				"isDefault": true
