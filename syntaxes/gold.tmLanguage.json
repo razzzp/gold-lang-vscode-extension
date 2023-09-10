@@ -37,22 +37,28 @@
 		"method-call":{
 			"match": "(?i)(\\w+)\\(",
 			"captures": {
-				"1": {"patterns": [{"include": "#method-ident"}]}
+				"1": {"patterns": [
+					{"include": "#method-ident"}
+				]}
 			}
 		},
 		"method-decl-no-param":{
-			"match": "(?i)(proc|procedure|func|function)\\s+(\\w+)",
+			"match": "(?i)(proc|procedure|func|function)\\s+([\\w#]+)",
 			"captures": {
 				"1": {"name": "storage.type"},
-				"2": {"patterns": [{"include": "#method-ident"}]}
+				"2": {"patterns": [
+					{"include": "#method-ident"}
+				]}
 			}
 		},
 		"method-decl-param":{
-			"begin": "(?i)(proc|procedure|func|function)\\s+(\\w+)\\s*\\(",
+			"begin": "(?i)(proc|procedure|func|function)\\s+([\\w#]+)\\s*\\(",
 			"end": "\\)",
 			"beginCaptures": {
 				"1": {"name": "storage.type"},
-				"2": {"patterns": [{"include": "#method-ident"}]}
+				"2": {"patterns": [
+					{"include": "#method-ident"}
+					]}
 			},
 			"patterns": [
 				{"include": "#keyword"},
@@ -153,6 +159,12 @@
 			"match": "(?i)\\b[A-Za-z_]\\w*\\b"
 		},
 		"method-ident": {
+			"patterns": [
+				{"include": "#method-ident-name"},
+				{"include": "#keyword-other"}
+			]
+		},
+		"method-ident-name": {
 			"name": "entity.name.function",
 			"match": "(?i)\\b[A-Za-z_]\\w*\\b"
 		},
@@ -252,6 +264,7 @@
 				{"include": "#keyword-control"},
 				{"include": "#keyword-operator"},
 				{"include": "#keyword-vars"},
+				{"include": "#keyword-other"},
 				{"include": "#storage"}
 			]
 		},
@@ -336,7 +349,7 @@
 		},
 		"keyword-operator-other":{
 			"name": "keyword.operator.other",
-			"match": "(@|\\.)"
+			"match": "(\\.)"
 		},
 		"keyword-operator-other-words":{
 			"name": "keyword.other.operator.other",
@@ -360,6 +373,10 @@
 		"keyword-reserved":{
 			"name": "keyword.other",
 			"match": "(?i)\\b(_modulename|_methodname|of)\\b"
+		},
+		"keyword-other":{
+			"name": "keyword.other",
+			"match": "(@|#)"
 		},
 
 
