@@ -1,11 +1,11 @@
 {
 	"compilerOptions": {
-		"module": "ES6",
+		"module": "NodeNext",
 		"target": "ES5",
 		"outDir": "dist",
 		"sourceMap": true,
 		"rootDir": "src",
-      "strictNullChecks": false,
+      	"strictNullChecks": false,
 		"strict": true ,
 		"moduleResolution": "NodeNext"  /* enable all strict type-checking options */
 		/* Additional Checks */
