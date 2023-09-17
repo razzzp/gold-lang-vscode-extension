@@ -29,8 +29,10 @@ To package:
 2. Then in the project folder run 'vsce package', say yes to any prompts
 
 To install:
-1. Run the command 'code --install-extension gold-lang-[latest version].vsix'
-or
 1. Go to extensions tab in VSCode
 2. Click on the triple dot '...' -> select 'Install from VSIX'
 3. Select the .VSIX file to install
+
+**or**
+
+1. Run the command 'code --install-extension gold-lang-[latest version].vsix'
