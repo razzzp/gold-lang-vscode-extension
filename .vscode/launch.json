@@ -11,7 +11,8 @@
             "request": "launch",
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}",
-                "--disable-extensions"
+                "--disable-extensions",
+                "--disable-gpu"
             ],
             "outFiles": [
 				"${workspaceFolder}/client/out/**/*.js"
