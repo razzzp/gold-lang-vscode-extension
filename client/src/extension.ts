@@ -24,25 +24,27 @@ export function activate(context: ExtensionContext) {
 		throw new Error(`${process.platform} platform not supported`);
 	}
 	
-	// cannot set debug flag from vscode launch.json -_-
-	let debug = process.env['DEBUG'] === 'true';
-	let serverModule: string;
-	if (debug){
-		serverModule = context.asAbsolutePath(
-			path.join('server', 'gold-lang-lsp', 'target', 'debug', exec_name)
-		);
-	} else {
-		serverModule = context.asAbsolutePath(
-			path.join('server', 'gold-lang-lsp', 'target', 'release', exec_name)
-		);
-	}
-	
+
+	const serverModuleDebug = context.asAbsolutePath(
+		path.join('server', 'gold-lang-lsp', 'target', 'debug', exec_name))
+
+	const serverModule = context.asAbsolutePath(
+		path.join('server', 'gold-lang-lsp', 'target', 'release', exec_name))
+
 
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
 	const serverOptions: ServerOptions = {
-		run: { command: serverModule, transport: TransportKind.stdio},
-		debug: { command: serverModule, transport: TransportKind.stdio}
+		run: { command: serverModule, transport: TransportKind.stdio, },
+		debug: { 
+			command: `${serverModuleDebug}`, 
+			transport: TransportKind.stdio,
+			options: {
+				env:{
+					"RUST_BACKTRACE": 1
+				}
+			}
+		}
 	};
 
 	// Options to control the language client
@@ -54,7 +56,7 @@ export function activate(context: ExtensionContext) {
 	// Create the language client and start the client.
 	client = new LanguageClient(
 		'languageServerExample',
-		'Language Server Example',
+		'Gold Lang Extension',
 		serverOptions,
 		clientOptions,
 	);

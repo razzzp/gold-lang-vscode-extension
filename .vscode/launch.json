@@ -17,7 +17,10 @@
             "outFiles": [
 				"${workspaceFolder}/client/out/**/*.js"
 			],
-			"preLaunchTask": "${defaultBuildTask}"
+			"preLaunchTask": "${defaultBuildTask}",
+            "env": {
+                "DEBUG": "TRUE"
+            }
         },
     ],
 }
