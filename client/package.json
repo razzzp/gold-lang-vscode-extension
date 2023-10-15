@@ -1,6 +1,6 @@
 {
   "name": "gold-lang-vscode-client",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "vscode client for gold lang lsp server ",
   "main": "./out/extension.js",
   "scripts": {
