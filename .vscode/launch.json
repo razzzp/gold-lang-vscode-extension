@@ -20,7 +20,7 @@
 			"preLaunchTask": "${defaultBuildTask}",
             "env": {
                 "DEBUG": "TRUE"
-            }
+            },
         },
     ],
 }
