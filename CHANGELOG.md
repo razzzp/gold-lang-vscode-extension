@@ -24,3 +24,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Type hierarchy (wip)
 - LSP with analyze core files on startup
 - Fixes to Parsing
+
+## [0.2.1]
+- Fix bug in type hierarchy

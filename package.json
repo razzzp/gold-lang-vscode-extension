@@ -2,7 +2,7 @@
   "name": "gold-lang",
   "displayName": "Gold Lang",
   "description": "VSCode extension for Gold (eWAM)",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "engines": {
     "vscode": "^1.54.0"
   },
