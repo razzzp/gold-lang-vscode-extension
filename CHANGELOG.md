@@ -16,3 +16,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Implemented Goto Definition
 - Analyze unused local vars
 - Warnings for tVarByteArray that are not inout
+
+## [0.2.0]
+- Goto definitions will shows parent implems
+- Remove inout param analysis
+- Complete suggestions immplented
+- Type hierarchy (wip)
+- LSP with analyze core files on startup
+- Fixes to Parsing
