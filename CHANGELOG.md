@@ -27,3 +27,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.2.1]
 - Fix bug in type hierarchy
+
+## [0.2.2]
+- Improving in parsing speed
+- Process entity trees using threads (faster type hierarchy ready time)
