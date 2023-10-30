@@ -36,3 +36,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Naming convention checker
 - Unpurged local byte array checker
 - Goto Def now handles method and field declaration
+
+## [0.2.4]
+- Better memory management
