@@ -31,3 +31,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.2.2]
 - Improving in parsing speed
 - Process entity trees using threads (faster type hierarchy ready time)
+
+## [0.2.3]
+- Naming convention checker
+- Unpurged local byte array checker
+- Goto Def now handles method and field declaration
