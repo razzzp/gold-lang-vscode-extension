@@ -100,6 +100,7 @@
 						{"include": "#type-record"},
 						{"include": "#type-range"},
 						{"include": "#type-array"},
+						{"include": "#type-absolute"},
 						{"include": "#keyword"},
 						{"include": "#type-basic"}
 					]
@@ -111,6 +112,13 @@
 			"captures": {
 				"1": {"patterns": [{"include": "#storage-ref"}]}, 
 				"2": {"patterns": [{"include": "#type-ident"}]}
+			}
+		},
+		"type-absolute":{
+			"match": "(?i)\\b(absolute)\\s+(\\w+)",
+			"captures": {
+				"1": {"name":"keyword.other.operator.other"},
+				"2": {"name":"variable"}
 			}
 		},
 		"type-basic":{
@@ -353,7 +361,7 @@
 		},
 		"keyword-operator-other-words":{
 			"name": "keyword.other.operator.other",
-			"match": "(?i)\\b(uses|inverse|in|of)\\b"
+			"match": "(?i)\\b(uses|inverse|in|of|absolute)\\b"
 		},
 		"keyword-vars":{
 			"patterns": [
