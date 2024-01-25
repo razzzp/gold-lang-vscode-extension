@@ -2,7 +2,7 @@
   "name": "gold-lang",
   "displayName": "Gold Lang",
   "description": "VSCode extension for Gold (eWAM)",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "engines": {
     "vscode": "^1.54.0"
   },
@@ -14,6 +14,12 @@
   "main": "./client/dist/extension.js",
   "activationEvents": [],
   "contributes": {
+    "commands": [
+      {
+        "command": "goldlang.createMobileFileFDPCClass",
+        "title": "Gold: Create New Mobile File FDPC Class"
+      }
+    ],
     "configuration": {
       "type": "",
       "title": "gold config",

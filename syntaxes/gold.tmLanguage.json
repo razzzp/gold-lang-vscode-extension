@@ -361,7 +361,7 @@
 		},
 		"keyword-operator-other-words":{
 			"name": "keyword.other.operator.other",
-			"match": "(?i)\\b(uses|inverse|in|of|absolute|inherited|pass)\\b"
+			"match": "(?i)\\b(uses|inverse|in|of|absolute|inherited|pass|end)\\b"
 		},
 		"keyword-vars":{
 			"patterns": [
