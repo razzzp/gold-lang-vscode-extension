@@ -35,7 +35,7 @@ function setUpLSP(context: ExtensionContext) {
 	const serverModule = context.asAbsolutePath(
 		path.join('server', 'gold-lang-lsp', 'target', 'release', exec_name))
 
-
+	
 	// If the extension is launched in debug mode then the debug server options are used
 	// Otherwise the run options are used
 	const serverOptions: ServerOptions = {
@@ -47,7 +47,10 @@ function setUpLSP(context: ExtensionContext) {
 				env: {
 					"RUST_BACKTRACE": 1
 				}
-			}
+			},
+			args:[
+				"--log-debug"
+			]
 		}
 	};
 
